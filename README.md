@@ -8,6 +8,14 @@
 
 > ⚠️ 本项目基于传统术数典籍实现，仅供学习、研究与娱乐。占卜不能预测未来，**不构成医疗、法律、投资等任何专业建议**，请勿用于迷信或重大决策。
 
+## 界面预览
+
+Web 形态采用古典宣纸风格，繁简白话三体可切换：
+
+| 周易筮占 | 奇门遁甲 |
+|---|---|
+| ![周易筮占](assets/screenshot-zhouyi.jpg) | ![奇门遁甲](assets/screenshot-qimen.jpg) |
+
 ## 特性
 
 - **三式齐备**
@@ -50,6 +58,21 @@ go build -o zhouyi .
 ./zhouyi cast -m huican -q "明年整体运势" -t timing
 ```
 输出 JSON，`prompt` 字段即解卦提示词。运行 `./zhouyi cast --help` 看全部参数。
+
+输出示例（`prompt` 较长，此处省略其正文）：
+
+```json
+{
+  "ok": true,
+  "method": "zhouyi",
+  "question": "今年事业发展如何",
+  "questionLabel": "事业 / 工作",
+  "summary": "第37卦 家人卦 → 之 第13卦 同人卦",
+  "prompt": "你是一位精通《周易》的易学顾问，请根据以下卦象为我解卦……（完整解卦提示词，约 2700 字）"
+}
+```
+
+AI（如 Claude）拿到 `prompt` 后，会按其中「请按以下结构解卦」的步骤逐条解读，并为每个结论标注卦象依据。
 
 ### 3. Web 网页
 
