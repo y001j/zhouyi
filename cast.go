@@ -1,0 +1,272 @@
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+	"time"
+
+	"zhouyi/liuren"
+	"zhouyi/qimen"
+)
+
+// cast 子命令：非交互式起盘，供外部 agent / skill 调用。
+// 一次调用即起即灭，输出 JSON（含解卦提示词），不进入 REPL，不需鉴权。
+//
+// 用法：
+//   zhouyi cast --method <zhouyi|qimen|liuren|huican> --question "所问之事" \
+//               [--type career] [--coin] [--upper N --lower N --changing N] \
+//               [--time RFC3339] [--lon 经度] [--mode prompt|full]
+//
+// --method 说明：
+//   zhouyi  周易六爻（默认铜钱法；给 --upper/--lower/--changing 则用数字起卦法，可复现）
+//   qimen   奇门遁甲
+//   liuren  大六壬
+//   huican  三式互参（周易×六壬×奇门）
+//
+// --mode 说明：
+//   prompt  （默认）只返回起盘数据 + 解卦提示词，解读交给调用方
+//   full    额外附带程序渲染的盘面/解卦文字（interpret 字段），供调用方参考
+
+// castOutput 是 cast 子命令的统一 JSON 输出结构。
+type castOutput struct {
+	OK            bool   `json:"ok"`
+	Error         string `json:"error,omitempty"`
+	Method        string `json:"method"`                  // zhouyi|qimen|liuren|huican
+	Question      string `json:"question,omitempty"`      // 所问之事
+	QuestionType  string `json:"questionType,omitempty"`  // 规范化后的类型键
+	QuestionLabel string `json:"questionLabel,omitempty"` // 类型中文标签
+	Time          string `json:"time"`                    // 起盘时刻（RFC3339）
+	Summary       string `json:"summary,omitempty"`       // 一句话盘面摘要（卦名/课体/局数）
+	Prompt        string `json:"prompt"`                  // ⭐ 解卦提示词（核心交付物）
+	Interpret     string `json:"interpret,omitempty"`     // full 模式：渲染好的盘面/解卦文字
+}
+
+// runCast 解析参数并执行一次非交互起盘，把 JSON 写到 stdout。
+// 返回进程退出码（0 成功，2 参数错误，1 起盘失败）。
+func runCast(args []string) int {
+	var (
+		method   = "zhouyi"
+		question string
+		qtypeStr string
+		coin     bool
+		upper    = -1
+		lower    = -1
+		changing = -1
+		timeStr  string
+		lon      float64
+		mode     = "prompt"
+	)
+
+	// 极简参数解析：--key value / --flag
+	for i := 0; i < len(args); i++ {
+		a := args[i]
+		next := func() string {
+			if i+1 < len(args) {
+				i++
+				return args[i]
+			}
+			return ""
+		}
+		switch a {
+		case "--method", "-m":
+			method = strings.ToLower(next())
+		case "--question", "-q":
+			question = next()
+		case "--type", "-t":
+			qtypeStr = next()
+		case "--coin":
+			coin = true
+		case "--upper":
+			upper, _ = strconv.Atoi(next())
+		case "--lower":
+			lower, _ = strconv.Atoi(next())
+		case "--changing":
+			changing, _ = strconv.Atoi(next())
+		case "--time":
+			timeStr = next()
+		case "--lon", "--longitude":
+			lon, _ = strconv.ParseFloat(next(), 64)
+		case "--mode":
+			mode = strings.ToLower(next())
+		case "-h", "--help":
+			fmt.Print(castUsage)
+			return 0
+		default:
+			fmt.Fprintf(os.Stderr, "未知参数：%s\n\n%s", a, castUsage)
+			return 2
+		}
+	}
+
+	// 起盘时刻：默认当前；--time 支持 RFC3339（含时区），并按经度做真太阳时校正。
+	t := time.Now()
+	if timeStr != "" {
+		parsed, err := time.Parse(time.RFC3339, timeStr)
+		if err != nil {
+			return emitCastError(method, fmt.Sprintf("--time 解析失败（需 RFC3339，如 2026-05-30T14:30:00+08:00）：%v", err), 2)
+		}
+		t = parsed
+	}
+	if lon != 0 {
+		t = ApplyTrueSolarTime(t, lon)
+	}
+
+	qt := ParseQuestionType(qtypeStr)
+	full := mode == "full"
+
+	switch method {
+	case "zhouyi", "周易", "liuyao", "六爻":
+		return castZhouyi(question, qt, coin, upper, lower, changing, t, full)
+	case "qimen", "奇门", "奇门遁甲":
+		return castQimen(question, qt, t, full)
+	case "liuren", "六壬", "大六壬":
+		return castLiuren(question, qt, t, full)
+	case "huican", "互参", "三式":
+		return castHuican(question, qt, t, full)
+	default:
+		return emitCastError(method, fmt.Sprintf("未知 method：%q（可选 zhouyi|qimen|liuren|huican）", method), 2)
+	}
+}
+
+func castZhouyi(question string, qt QuestionType, coin bool, upper, lower, changing int, t time.Time, full bool) int {
+	var r DivinationResult
+	// 给齐 upper+lower（changing 可为 0=无变爻）则用数字法，结果可复现；否则铜钱法。
+	if !coin && upper > 0 && lower > 0 && changing >= 0 {
+		r = DivineByNumber(upper, lower, changing)
+	} else {
+		r = DivineByCoins()
+	}
+	r.Time = t
+	r.QuestionType = qt
+
+	out := castOutput{
+		OK:            true,
+		Method:        "zhouyi",
+		Question:      question,
+		QuestionType:  string(qt),
+		QuestionLabel: QuestionTypeLabel(qt),
+		Time:          t.Format(time.RFC3339),
+		Prompt:        GenerateAIPrompt(r, question),
+	}
+	if r.MainHex != nil {
+		out.Summary = fmt.Sprintf("第%d卦 %s卦", r.MainHex.Number, r.MainHex.Name)
+		if r.ChangeHex != nil {
+			out.Summary += fmt.Sprintf(" → 之 第%d卦 %s卦", r.ChangeHex.Number, r.ChangeHex.Name)
+		}
+	}
+	if full {
+		out.Interpret = InterpretResult(r)
+	}
+	return emitCast(out)
+}
+
+func castQimen(question string, qt QuestionType, t time.Time, full bool) int {
+	pan, err := qimen.BuildPan(t)
+	if err != nil {
+		return emitCastError("qimen", fmt.Sprintf("奇门起局失败：%v", err), 1)
+	}
+	focus := qimen.FocusGuide(string(qt))
+	out := castOutput{
+		OK:            true,
+		Method:        "qimen",
+		Question:      question,
+		QuestionType:  string(qt),
+		QuestionLabel: QuestionTypeLabel(qt),
+		Time:          t.Format(time.RFC3339),
+		Summary:       fmt.Sprintf("%s%d局 · 值符%s落%s · 值使%s落%s", pan.Ctx.Dun, pan.Ctx.Ju, pan.ZhiFuStar, pan.ZhiFuPalace, pan.ZhiShiGate, pan.ZhiShiPalace),
+		Prompt:        qimen.GenerateAIPrompt(pan, question, focus, string(qt)),
+	}
+	if full {
+		out.Interpret = pan.Render()
+	}
+	return emitCast(out)
+}
+
+func castLiuren(question string, qt QuestionType, t time.Time, full bool) int {
+	ctx, err := liuren.BuildContext(t)
+	if err != nil {
+		return emitCastError("liuren", fmt.Sprintf("六壬起课失败：%v", err), 1)
+	}
+	ctx.QuestionType = string(qt)
+	pan := liuren.DivineWithContext(ctx)
+	focus := FocusGuideLiuRen(qt)
+	leishen := LeiShenDirective(pan, qt)
+	out := castOutput{
+		OK:            true,
+		Method:        "liuren",
+		Question:      question,
+		QuestionType:  string(qt),
+		QuestionLabel: QuestionTypeLabel(qt),
+		Time:          t.Format(time.RFC3339),
+		Summary:       fmt.Sprintf("%s%s日 · %s", pan.Ctx.Gan.String(), pan.Ctx.DayZhi.String(), pan.KeTi.Name),
+		Prompt:        liuren.GenerateAIPrompt(pan, question, focus, leishen),
+	}
+	if full {
+		out.Interpret = liuren.Render(pan)
+	}
+	return emitCast(out)
+}
+
+func castHuican(question string, qt QuestionType, t time.Time, full bool) int {
+	r, err := HuCanDivine(t, question, qt)
+	if err != nil {
+		return emitCastError("huican", fmt.Sprintf("互参起盘失败：%v", err), 1)
+	}
+	out := castOutput{
+		OK:            true,
+		Method:        "huican",
+		Question:      question,
+		QuestionType:  string(qt),
+		QuestionLabel: QuestionTypeLabel(qt),
+		Time:          t.Format(time.RFC3339),
+		Prompt:        HuCanPrompt(r),
+	}
+	if r.Zhouyi.MainHex != nil {
+		out.Summary = fmt.Sprintf("周易%s卦 · 六壬%s · 奇门%s%d局",
+			r.Zhouyi.MainHex.Name, r.LiuRenPan.KeTi.Name, r.QimenPan.Ctx.Dun, r.QimenPan.Ctx.Ju)
+	}
+	if full {
+		out.Interpret = HuCanText(r)
+	}
+	return emitCast(out)
+}
+
+// emitCast 把成功结果序列化为 JSON 输出到 stdout。
+func emitCast(out castOutput) int {
+	enc := json.NewEncoder(os.Stdout)
+	enc.SetEscapeHTML(false)
+	enc.SetIndent("", "  ")
+	_ = enc.Encode(out)
+	return 0
+}
+
+// emitCastError 输出错误 JSON（stdout 保持机器可读），返回退出码。
+func emitCastError(method, msg string, code int) int {
+	enc := json.NewEncoder(os.Stdout)
+	enc.SetEscapeHTML(false)
+	enc.SetIndent("", "  ")
+	_ = enc.Encode(castOutput{OK: false, Method: method, Error: msg})
+	return code
+}
+
+const castUsage = `周易占卜 · cast 非交互子命令（供 agent / skill 调用）
+
+用法：
+  zhouyi cast --method <zhouyi|qimen|liuren|huican> --question "所问之事" [选项]
+
+选项：
+  --method, -m   术数：zhouyi(周易六爻) | qimen(奇门) | liuren(六壬) | huican(三式互参)，默认 zhouyi
+  --question,-q  所问之事
+  --type, -t     问题类型：career|wealth|relation|health|decision|timing|other（也接受中文/数字）
+  --time         起盘时刻，RFC3339，如 2026-05-30T14:30:00+08:00，默认当前时刻
+  --lon          经度（东经为正），用于真太阳时校正，默认不校正
+  --mode         prompt(默认，仅起盘+提示词) | full(额外附渲染盘面文字)
+  周易专属（数字起卦，可复现）：
+  --coin         强制用铜钱法（随机）
+  --upper N      上卦数  --lower N 下卦数  --changing N 变爻位(0=无变爻)
+                 （三者齐全且未加 --coin 时走数字起卦法，结果可复现）
+
+输出：JSON（stdout），核心字段 prompt 为解卦提示词，解读交由调用方完成。
+`

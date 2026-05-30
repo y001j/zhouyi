@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title data-i18n="journal.title">筮　錄 · 占卦笔記</title>
+<link rel="stylesheet" href="/style.css" />
+<script src="/i18n-en.js?v=5"></script>
+<script src="/i18n.js?v=5"></script>
+</head>
+<body>
+<div class="paper-bg" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="vert-motto left" data-i18n="journal.motto.left">所占者　所驗者</div>
+    <div class="title-block">
+      <div class="seal">錄</div>
+      <h1 data-i18n="journal.header.title">筮　　錄</h1>
+      <p class="subtitle" data-i18n="journal.subtitle">占　而　記　之　·　驗　而　悟　之</p>
+    </div>
+    <div class="vert-motto right" data-i18n="journal.motto.right">行而驗　驗而學</div>
+  </div>
+</header>
+
+<nav class="sub-nav">
+  <a href="/" data-i18n="nav.home">卜筮明心</a>
+  <span class="sep">｜</span>
+  <a href="/zhouyi.html" data-i18n="nav.zhouyi">周易筮占</a>
+  <span class="sep">｜</span>
+  <a href="/liuren.html" data-i18n="nav.liuren">大六壬起課</a>
+  <span class="sep">｜</span>
+  <a href="/qimen.html" data-i18n="nav.qimen">奇門遁甲</a>
+  <span class="sep">｜</span>
+  <a href="/huican.html" data-i18n="nav.huican">三式互參</a>
+  <span class="sep">｜</span>
+  <span class="here" data-i18n="nav.journal">筮　錄</span>
+  <span class="lang-switch" role="group" aria-label="Language">
+    <a data-lang-switch="zh-TW" title="繁體中文">繁</a><a data-lang-switch="zh-CN" title="简体中文">简</a><a data-lang-switch="zh-mod" title="现代汉语">白话</a>
+  </span>
+</nav>
+
+<main class="container">
+
+  <section class="panel">
+    <div class="panel-title"><span class="ord">序</span><span class="name" data-i18n="journal.section.intro">關　於　筮　錄</span></div>
+    <div class="journal-intro">
+      <p data-i18n="journal.intro.p1">「<strong>長期記錄所占所驗，積以為學；非一時之好奇</strong>」——首頁《心法》如此說。</p>
+      <p data-i18n="journal.intro.p2">凡占而封藏者，皆入此錄。事後可標應驗、寫復盤；久之，自能體會「易不過是我心之鏡」。</p>
+      <p class="journal-intro-hint" data-i18n="journal.intro.hint">※ 全部資料僅存於本機瀏覽器，不會主動上傳。可隨時導出 JSON 自行保存。</p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-title"><span class="ord">壹</span><span class="name" data-i18n="journal.section.stats">概　覽</span></div>
+    <div class="journal-stats" id="journalStats" data-i18n-keep></div>
+    <div class="journal-toolbar">
+      <button id="btnExport" class="secondary" type="button" data-i18n="journal.btn.export">導出 JSON</button>
+      <button id="btnClear" class="secondary danger" type="button" data-i18n="journal.btn.clear">清空筮錄</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-title"><span class="ord">貳</span><span class="name" data-i18n="journal.section.list">所占之卦</span></div>
+    <div id="journalList" class="journal-list" data-i18n-keep></div>
+  </section>
+
+</main>
+
+<!-- 标应验弹层 -->
+<div id="verifyMask" class="qm-mask" hidden>
+  <div class="qm-dialog" role="dialog" aria-modal="true">
+    <h2 data-i18n="journal.verify.title">標　記　應　驗</h2>
+    <div class="vf-body">
+      <label class="vf-radio"><input type="radio" name="vfStatus" value="fulfilled" /><span data-i18n="journal.verify.fulfilled">已　應</span></label>
+      <label class="vf-radio"><input type="radio" name="vfStatus" value="unfulfilled" /><span data-i18n="journal.verify.unfulfilled">未　應</span></label>
+      <label class="vf-radio"><input type="radio" name="vfStatus" value="partial" /><span data-i18n="journal.verify.partial">半　應 / 待　驗</span></label>
+      <div class="vf-note-row">
+        <label data-i18n="journal.verify.notelabel">事後復盤（可選）</label>
+        <textarea id="vfNote" rows="4" maxlength="800" data-i18n-attr="placeholder:journal.verify.noteph" placeholder="記下事情實際的進展、與卦象的對應或偏離……"></textarea>
+      </div>
+    </div>
+    <div class="qm-actions">
+      <button type="button" class="qm-cancel" id="vfCancel" data-i18n="querent.btn.cancel">取　消</button>
+      <button type="button" class="qm-save" id="vfSave" disabled data-i18n="journal.verify.save">保　存</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-line"></div>
+  <p data-i18n="journal.footer">所占者　心也　·　所驗者　行也</p>
+</footer>
+
+<script src="/journal.js"></script>
+<script>
+(function(){
+  const KIND_LABEL = {
+    zhouyi: '周易', liuren: '六壬', qimen: '奇門', huican: '互參'
+  };
+  const tr = (k, f) => (window.I18n && window.I18n.t) ? window.I18n.t(k, f) : f;
+
+  function escape(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function fmtKind(k) {
+    return tr('journal.kind.' + k, KIND_LABEL[k] || k);
+  }
+
+  function fmtTime(ts, ganzhi) {
+    if (ganzhi) return ganzhi;
+    if (!ts) return '';
+    return new Date(ts).toLocaleString('zh-CN', { hour12: false });
+  }
+
+  function renderStats() {
+    const s = window.Journal.stats();
+    const box = document.getElementById('journalStats');
+    if (s.total === 0) {
+      box.innerHTML = `<div class="js-empty">${tr('journal.empty', '筮錄為空。當你封藏第一卦，它便會出現於此。')}</div>`;
+      return;
+    }
+    box.innerHTML = `
+      <div class="js-row">
+        <span class="js-cell"><span class="js-num">${s.total}</span><span class="js-lbl">${tr('journal.stat.total', '凡 卦')}</span></span>
+        <span class="js-cell ok"><span class="js-num">${s.fulfilled}</span><span class="js-lbl">${tr('journal.stat.fulfilled', '已 應')}</span></span>
+        <span class="js-cell partial"><span class="js-num">${s.partial}</span><span class="js-lbl">${tr('journal.stat.partial', '半 應')}</span></span>
+        <span class="js-cell no"><span class="js-num">${s.unfulfilled}</span><span class="js-lbl">${tr('journal.stat.unfulfilled', '未 應')}</span></span>
+        <span class="js-cell pending"><span class="js-num">${s.pending}</span><span class="js-lbl">${tr('journal.stat.pending', '待 驗')}</span></span>
+      </div>
+    `;
+  }
+
+  function renderList() {
+    const list = window.Journal.list();
+    const box = document.getElementById('journalList');
+    if (list.length === 0) { box.innerHTML = ''; return; }
+    box.innerHTML = list.map(r => {
+      const v = r.verification;
+      const vBadge = v
+        ? `<span class="ji-vbadge vf-${v.status}">${tr('journal.vf.' + v.status, ({fulfilled:'已 應', unfulfilled:'未 應', partial:'半 應'})[v.status] || v.status)}</span>`
+        : `<span class="ji-vbadge pending">${tr('journal.stat.pending', '待 驗')}</span>`;
+      const thought = r.firstThought
+        ? `<div class="ji-thought">${tr('journal.firstthought', '第一念')}：${escape(r.firstThought)}</div>`
+        : `<div class="ji-thought ji-empty">${tr('journal.nothought', '（未記第一念）')}</div>`;
+      const vNote = v && v.note
+        ? `<div class="ji-vnote">${tr('journal.vf.note', '復盤')}：${escape(v.note)}</div>`
+        : '';
+      return `
+        <article class="journal-item" data-id="${r.id}">
+          <header class="ji-head">
+            <span class="ji-time">${escape(fmtTime(r.timestamp, r.ganzhiTime))}</span>
+            <span class="ji-kind">${fmtKind(r.kind)}</span>
+            ${vBadge}
+          </header>
+          <div class="ji-q"><span class="ji-q-lbl">${tr('journal.qlabel', '所　問')}：</span>${escape(r.question || tr('journal.noquestion', '（未明所問）'))}</div>
+          <div class="ji-head2"><span class="ji-h-lbl">${tr('journal.headline', '所　得')}：</span><strong>${escape(r.headline || '')}</strong></div>
+          ${thought}
+          ${vNote}
+          <footer class="ji-actions">
+            <button type="button" class="ji-btn ji-verify">${v ? tr('journal.btn.reverify', '修改應驗') : tr('journal.btn.verify', '標 應 驗')}</button>
+            <button type="button" class="ji-btn ji-edit-thought">${tr('journal.btn.editthought', '改第一念')}</button>
+            <button type="button" class="ji-btn ji-del">${tr('journal.btn.del', '刪 除')}</button>
+          </footer>
+        </article>
+      `;
+    }).join('');
+  }
+
+  function bindList() {
+    const box = document.getElementById('journalList');
+    box.addEventListener('click', (e) => {
+      const btn = e.target.closest('.ji-btn');
+      if (!btn) return;
+      const item = btn.closest('.journal-item');
+      const id = item.getAttribute('data-id');
+      if (btn.classList.contains('ji-del')) {
+        if (confirm(tr('journal.confirm.del', '確認刪除此卦？此操作不可恢復。'))) {
+          window.Journal.remove(id);
+          renderAll();
+        }
+      } else if (btn.classList.contains('ji-verify')) {
+        openVerify(id);
+      } else if (btn.classList.contains('ji-edit-thought')) {
+        const rec = window.Journal.get(id);
+        const cur = rec ? (rec.firstThought || '') : '';
+        const v = prompt(tr('journal.prompt.editthought', '修改第一念（可空）：'), cur);
+        if (v !== null) {
+          window.Journal.update(id, { firstThought: v.trim() });
+          renderAll();
+        }
+      }
+    });
+  }
+
+  // ---- 标应验弹层 ----
+  let verifyTargetId = null;
+  function openVerify(id) {
+    verifyTargetId = id;
+    const rec = window.Journal.get(id);
+    const mask = document.getElementById('verifyMask');
+    document.querySelectorAll('input[name="vfStatus"]').forEach(r => r.checked = false);
+    document.getElementById('vfNote').value = '';
+    if (rec && rec.verification) {
+      const r = document.querySelector(`input[name="vfStatus"][value="${rec.verification.status}"]`);
+      if (r) r.checked = true;
+      document.getElementById('vfNote').value = rec.verification.note || '';
+    }
+    mask.hidden = false;
+    document.body.classList.add('qm-open');
+    refreshVfSave();
+  }
+  function closeVerify() {
+    document.getElementById('verifyMask').hidden = true;
+    document.body.classList.remove('qm-open');
+    verifyTargetId = null;
+  }
+  function refreshVfSave() {
+    const has = !!document.querySelector('input[name="vfStatus"]:checked');
+    document.getElementById('vfSave').disabled = !has;
+  }
+  document.querySelectorAll('input[name="vfStatus"]').forEach(r => r.addEventListener('change', refreshVfSave));
+  document.getElementById('vfCancel').addEventListener('click', closeVerify);
+  document.getElementById('verifyMask').addEventListener('click', e => { if (e.target.id === 'verifyMask') closeVerify(); });
+  document.getElementById('vfSave').addEventListener('click', () => {
+    if (!verifyTargetId) return closeVerify();
+    const status = (document.querySelector('input[name="vfStatus"]:checked') || {}).value;
+    if (!status) return;
+    const note = document.getElementById('vfNote').value.trim();
+    window.Journal.update(verifyTargetId, {
+      verification: { status, note, verifiedAt: Date.now() }
+    });
+    closeVerify();
+    renderAll();
+  });
+
+  document.getElementById('btnExport').addEventListener('click', () => {
+    if (window.Journal.stats().total === 0) {
+      alert(tr('journal.export.empty', '筮錄為空，無可導出。'));
+      return;
+    }
+    window.Journal.exportJSON();
+  });
+  document.getElementById('btnClear').addEventListener('click', () => {
+    if (window.Journal.stats().total === 0) return;
+    if (!confirm(tr('journal.confirm.clear', '確認清空全部筮錄？此操作不可恢復。建議先「導出 JSON」備份。'))) return;
+    if (!confirm(tr('journal.confirm.clear2', '再次確認：將永久刪除全部筮錄。'))) return;
+    window.Journal.clearAll();
+    renderAll();
+  });
+
+  function renderAll() { renderStats(); renderList(); }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderAll();
+    bindList();
+  });
+})();
+</script>
+</body>
+</html>

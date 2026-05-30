@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title data-i18n="qimen.title">奇門遁甲 · 時家起局</title>
+<link rel="stylesheet" href="/style.css" />
+<script src="/i18n-en.js?v=5"></script>
+<script src="/i18n.js?v=5"></script>
+<style>
+  /* 奇门九宫盘专属样式 */
+  .qimen-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .qm-cell {
+    position: relative;
+    padding: 14px 10px 12px;
+    background:
+      linear-gradient(180deg, rgba(255, 250, 230, 0.9), rgba(246, 237, 212, 0.7));
+    border: 1px solid var(--paper-dark);
+    border-radius: 2px;
+    text-align: center;
+    min-height: 120px;
+    box-shadow: inset 0 0 0 1px rgba(255, 245, 220, 0.5);
+  }
+  .qm-cell::before {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    border: 1px solid rgba(156, 107, 47, 0.15);
+    pointer-events: none;
+  }
+  .qm-cell.zhifu { background: linear-gradient(180deg, rgba(255, 236, 200, 0.95), rgba(240, 210, 150, 0.75)); }
+  .qm-cell.zhishi { background: linear-gradient(180deg, rgba(255, 245, 220, 0.95), rgba(230, 205, 160, 0.7)); }
+  .qm-cell.middle { background: linear-gradient(180deg, rgba(220, 200, 160, 0.6), rgba(200, 175, 130, 0.6)); }
+
+  .qm-god { font-size: 0.88rem; color: var(--vermilion-dark); letter-spacing: 0.15em; font-family: "STKaiti", "KaiTi", serif; font-weight: 700; }
+  .qm-star { font-size: 0.82rem; color: var(--ink-soft); letter-spacing: 0.1em; margin-top: 2px; }
+  .qm-stems { font-size: 1.25rem; color: var(--ink); font-family: "STKaiti", "KaiTi", serif; font-weight: 700; margin: 8px 0 6px; letter-spacing: 0.3em; }
+  .qm-heaven { color: var(--vermilion); }
+  .qm-earth { color: var(--ink); }
+  .qm-door { font-size: 0.95rem; color: var(--gold); letter-spacing: 0.2em; font-family: "STKaiti", "KaiTi", serif; font-weight: 700; margin-top: 2px; }
+  .qm-palace { font-size: 0.75rem; color: var(--ink-faint); letter-spacing: 0.15em; margin-top: 6px; padding-top: 4px; border-top: 1px dashed rgba(156, 107, 47, 0.25); }
+  .qm-marks { position: absolute; top: 4px; right: 6px; font-size: 0.7rem; color: var(--vermilion); letter-spacing: 0.1em; }
+  .qm-marks .void { color: var(--vermilion); font-weight: 700; }
+  .qm-marks .yima { color: var(--gold); font-weight: 700; margin-left: 3px; }
+
+  .qm-legend { display: flex; flex-wrap: wrap; gap: 14px 24px; justify-content: center; font-size: 0.85rem; color: var(--ink-soft); margin-top: 14px; letter-spacing: 0.1em; }
+  .qm-legend .lg-dot { display: inline-block; width: 10px; height: 10px; margin-right: 4px; vertical-align: middle; border: 1px solid var(--paper-dark); border-radius: 2px; }
+  .qm-legend .lg-zhifu { background: linear-gradient(180deg, #ffdfa8, #e0b878); }
+  .qm-legend .lg-zhishi { background: linear-gradient(180deg, #ffe8c0, #d0a680); }
+
+  .qm-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px 20px;
+    padding: 16px 20px;
+    background: rgba(255, 250, 230, 0.55);
+    border: 1px solid var(--paper-dark);
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+  .qm-meta-grid .item { font-size: 0.95rem; color: var(--ink); line-height: 1.6; }
+  .qm-meta-grid .item .lbl { color: var(--ink-soft); letter-spacing: 0.2em; font-size: 0.85rem; margin-right: 4px; }
+  .qm-meta-grid .item .val { color: var(--vermilion-dark); font-weight: 600; }
+
+  /* 日干/时干高亮 */
+  .qm-cell.daygan { box-shadow: inset 0 0 0 2px var(--vermilion), 0 0 0 1px rgba(168,50,30,0.3); }
+  .qm-cell.hourgan { box-shadow: inset 0 0 0 2px var(--gold), 0 0 0 1px rgba(200,154,86,0.3); }
+  .qm-cell.daygan.hourgan { box-shadow: inset 0 0 0 2px var(--vermilion), inset 0 0 0 4px var(--gold); }
+
+  /* 新标记：墓/刑/迫 */
+  .qm-marks .mu { color: #6b2f1c; font-weight: 700; margin-left: 3px; }
+  .qm-marks .xing { color: var(--vermilion); font-weight: 700; margin-left: 3px; }
+  .qm-marks .po { color: #8b4513; font-weight: 700; margin-left: 3px; }
+
+  .qm-wangshuai { font-size: 0.7rem; color: var(--ink-faint); margin-left: 3px; letter-spacing: 0; }
+  .qm-wangshuai.wang, .qm-wangshuai.xiang { color: var(--vermilion); font-weight: 700; }
+  .qm-wangshuai.qiu, .qm-wangshuai.si { color: #8a6d3b; font-style: italic; }
+
+  .qm-door-rel { font-size: 0.65rem; color: var(--ink-faint); margin-top: 2px; letter-spacing: 0; }
+  .qm-door-rel.po { color: var(--vermilion); font-weight: 700; }
+  .qm-door-rel.sheng { color: #2f6b30; font-weight: 700; }
+
+  .qm-tag { display: inline-block; position: absolute; bottom: 3px; font-size: 0.6rem; letter-spacing: 0.05em; padding: 0 4px; border-radius: 2px; }
+  .qm-tag-day { left: 4px; background: var(--vermilion); color: #f6edd4; }
+  .qm-tag-hour { right: 4px; background: var(--gold); color: #f6edd4; }
+
+  /* 格局列表 */
+  .pattern-list { display: grid; gap: 8px; }
+  .pattern-item {
+    padding: 10px 14px;
+    background: rgba(255, 250, 230, 0.55);
+    border: 1px solid var(--paper-dark);
+    border-left: 3px solid var(--gold-light);
+    border-radius: 2px;
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+  .pattern-item.ji { border-left-color: #2f6b30; background: rgba(220, 240, 220, 0.3); }
+  .pattern-item.xiong { border-left-color: var(--vermilion); background: rgba(245, 220, 220, 0.25); }
+  .pattern-item .name { font-family: "STKaiti", "KaiTi", serif; font-weight: 700; letter-spacing: 0.15em; color: var(--vermilion-dark); }
+  .pattern-item .auc { font-size: 0.85rem; margin-left: 6px; padding: 1px 6px; border-radius: 3px; background: var(--paper); letter-spacing: 0; }
+  .pattern-item .auc.daji { background: #2f6b30; color: #f6edd4; }
+  .pattern-item .auc.ji { background: #8fb98c; color: #f6edd4; }
+  .pattern-item .auc.xiong { background: #c25d3f; color: #f6edd4; }
+  .pattern-item .auc.daxiong { background: var(--vermilion); color: #f6edd4; }
+  .pattern-item .classic { color: var(--ink-faint); font-size: 0.82rem; font-style: italic; margin-top: 4px; display: block; }
+
+  @media (max-width: 720px) {
+    .qm-cell { padding: 10px 6px 8px; min-height: 100px; }
+    .qm-stems { font-size: 1rem; margin: 5px 0 4px; }
+    .qm-god, .qm-star, .qm-door, .qm-palace { font-size: 0.7rem; }
+    .qm-meta-grid { padding: 12px 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="paper-bg" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="vert-motto left" data-i18n="qimen.motto.left">三式之一　兵機之要</div>
+    <div class="title-block">
+      <div class="seal">奇</div>
+      <h1 data-i18n="qimen.header.title">奇　門　遁　甲</h1>
+      <p class="subtitle" data-i18n="qimen.subtitle">時家起局　九宮八門　三奇六儀</p>
+    </div>
+    <div class="vert-motto right" data-i18n="qimen.motto.right">陰陽順逆　神藏鬼沒</div>
+  </div>
+</header>
+
+<nav class="sub-nav">
+  <a href="/" data-i18n="nav.home">卜筮明心</a>
+  <span class="sep">｜</span>
+  <a href="/zhouyi.html" data-i18n="nav.zhouyi">周易筮占</a>
+  <span class="sep">｜</span>
+  <a href="/liuren.html" data-i18n="nav.liuren">大六壬起課</a>
+  <span class="sep">｜</span>
+  <span class="here" data-i18n="nav.qimen">奇門遁甲</span>
+  <span class="sep">｜</span>
+  <a href="/huican.html" data-i18n="nav.huican">三式互參</a>
+  <span class="sep">｜</span>
+  <a href="/journal.html" data-i18n="nav.journal">筮　錄</a>
+  <span class="lang-switch" role="group" aria-label="Language">
+    <a data-lang-switch="zh-TW" title="繁體中文">繁</a><a data-lang-switch="zh-CN" title="简体中文">简</a><a data-lang-switch="zh-mod" title="现代汉语">白话</a>
+  </span>
+</nav>
+
+<main class="container">
+  <div class="preface-tip"><span class="pt-line"><span class="pt-ico">✎</span> <span class="pt-strong" data-i18n="zhouyi.preface.tip">占卦有法，不可輕用</span> —— <a href="/" data-i18n="zhouyi.preface.tip.link">請先閱讀「卜筮明心」</a></span><span class="pt-sub" data-i18n="zhouyi.preface.tip.sub">無事不占　·　一事不二占　·　小事不占　·　邪事不占　·　已決不占　·　代占須慎</span></div>
+
+  <!-- 奇门简介 -->
+  <section class="panel intro-panel">
+    <details>
+      <summary><span data-i18n="qimen.intro.summary">奇門遁甲 · 法門簡介</span><span class="chev">▾</span></summary>
+      <div class="intro-body" data-i18n-keep>
+        <div class="intro-lead">
+          奇門遁甲與太乙、六壬並稱「三式」，以九宮八門、三奇六儀、九星八神布成時家局盤。
+          相傳源於黃帝戰蚩尤，本為兵家制勝之術，後推及一切謀事、擇方、擇時。
+          <span class="quote">——「神藏鬼沒，奇儀相配」，奇門所見乃「天時、地利、人神」交織之機。</span>
+        </div>
+        <div class="intro-grid">
+          <div class="intro-card">
+            <div class="ic-title"><span class="ic-ico">特</span>特點</div>
+            <ul>
+              <li>九宮定八方，八門主吉凶通塞</li>
+              <li>三奇（乙丙丁）主貴人文書，六儀（戊己庚辛壬癸）主事務狀態</li>
+              <li>值符九星顯天時，值使八門顯人事出入</li>
+            </ul>
+          </div>
+          <div class="intro-card">
+            <div class="ic-title"><span class="ic-ico">功</span>功能</div>
+            <ul>
+              <li>選擇「吉方、吉時」——何時出發、何方布局最有利</li>
+              <li>辨識謀事格局：青龍返首、飛鳥跌穴主大吉；大格、刑格主阻滯</li>
+              <li>推斷用事成敗之機，尤長於謀略、求財、出行、兵法</li>
+            </ul>
+          </div>
+          <div class="intro-card neutral">
+            <div class="ic-title"><span class="ic-ico">優</span>優勢</div>
+            <ul>
+              <li>方位、時機指引最具體，可直接用於布局擇吉</li>
+              <li>格局命中即可速斷，吉凶分明不易模糊</li>
+              <li>適於「主動出擊」之事：開業、面試、出行、談判、求職</li>
+            </ul>
+          </div>
+          <div class="intro-card weak">
+            <div class="ic-title"><span class="ic-ico">拙</span>不足</div>
+            <ul>
+              <li>起局規則繁複（拆補/置閏諸法），自行排盤易誤</li>
+              <li>對「被動應事、情感細節」判斷不如六壬細膩</li>
+              <li>不同流派取法略異，需明確所用方法（本站為時家拆補法）</li>
+            </ul>
+          </div>
+        </div>
+        <div class="intro-tips">
+          <div class="it-title">使用建議</div>
+          <ol>
+            <li>起局自動按當前時辰取時家局，占問前請凝神默念所問之事。</li>
+            <li>最宜問：「此事宜何時動」「往何方有利」「此謀能成否」「求財宜往哪裡」「面試/談判吉凶」等主動謀事問題。</li>
+            <li>解局先看值符/值使所落宮，次看日干時干落宮，末觀命中之吉凶格局。</li>
+            <li>若問「事之象理、處世心法」，建議用周易；若問「人事細節、應期」，建議用六壬；重大布局可三式互參以求穩妥。</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- 起局表单 -->
+  <section class="panel" id="divinePanel">
+    <div class="panel-title"><span class="ord">壹</span><span class="name">起　局</span></div>
+    <div class="field-row">
+      <div class="field wide">
+        <label for="question" data-i18n="form.question.label">所問之事（可留空）</label>
+        <textarea id="question" placeholder="凝神默念所問之事……" data-i18n-attr="placeholder:form.question.placeholder"></textarea>
+      </div>
+      <div class="field">
+        <label for="qtype" data-i18n="form.qtype.label">問題類型</label>
+        <select id="qtype">
+          <option value="" data-i18n="form.qtype.other">其他 / 不指定</option>
+          <option value="career" data-i18n="form.qtype.career">事業 / 工作</option>
+          <option value="wealth" data-i18n="form.qtype.wealth">財運 / 投資</option>
+          <option value="relation" data-i18n="form.qtype.relation">感情 / 姻緣</option>
+          <option value="health" data-i18n="form.qtype.health">健康 / 身心</option>
+          <option value="decision" data-i18n="form.qtype.decision">抉擇 / 兩難</option>
+          <option value="timing" data-i18n="form.qtype.timing">時運 / 吉凶</option>
+        </select>
+      </div>
+    </div>
+    <div class="action-row">
+      <button id="btnDivine" class="primary" type="button">
+        <span class="btn-main" data-i18n="qimen.btn.divine">起　局</span>
+        <span class="btn-sub" data-i18n="qimen.btn.divine.sub">時家奇門</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 盘面结果 -->
+  <section class="panel" id="resultCard" hidden>
+    <div class="panel-title"><span class="ord">貳</span><span class="name" data-i18n="qimen.section.board">盤　面</span></div>
+    <div id="yinxinSlot"></div>
+
+    <div class="qm-meta-grid" id="metaGrid" data-i18n-keep></div>
+
+    <h3><span class="cn-dash"></span><span data-i18n="qimen.section.ninepalaces">九　宮　盤</span><span class="cn-dash"></span></h3>
+    <div class="qimen-grid" id="qimenGrid" data-i18n-keep></div>
+    <div class="qm-legend">
+      <span><span class="lg-dot lg-zhifu"></span><span data-i18n="qimen.legend.zhifu">值符落宮</span></span>
+      <span><span class="lg-dot lg-zhishi"></span><span data-i18n="qimen.legend.zhishi">值使落宮</span></span>
+      <span style="color:var(--vermilion);"><strong>空</strong> <span data-i18n="qimen.legend.void">旬空</span></span>
+      <span style="color:var(--gold);"><strong>馬</strong> <span data-i18n="qimen.legend.yima">驛馬</span></span>
+    </div>
+
+    <h3 id="patternsHeader" hidden><span class="cn-dash"></span><span data-i18n="qimen.section.patterns">命中格局</span><span class="cn-dash"></span></h3>
+    <div id="patternsBox" class="pattern-list" hidden data-i18n-keep></div>
+
+    <h3><span class="cn-dash"></span><span data-i18n="qimen.section.prompt">AI 解局提示詞</span><span class="cn-dash"></span></h3>
+    <div class="prompt-toolbar">
+      <button id="btnCopy" class="secondary" type="button" data-i18n="qimen.btn.copy">複　製</button>
+      <span class="copy-status" id="copyStatus" data-i18n="qimen.copied">已複製</span>
+    </div>
+    <div id="promptBox" class="prompt-scroll" data-i18n-keep></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-line"></div>
+  <span data-i18n="qimen.footer">天　機　藏　用　　神　鬼　莫　測</span>
+</footer>
+
+<script src="/access.js"></script>
+<script src="/location.js"></script>
+<script src="/ritual.js"></script>
+<script src="/regions.js"></script>
+<script src="/querent.js"></script>
+<script src="/journal.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => window.Querent.requireOrPrompt());
+
+async function doDivine() {
+  const q = document.getElementById('question').value.trim();
+  const qt = document.getElementById('qtype').value;
+  const btn = document.getElementById('btnDivine');
+  btn.disabled = true;
+  const tr = (k, f) => (window.I18n && window.I18n.t) ? window.I18n.t(k, f) : f;
+  btn.querySelector('.btn-main').textContent = tr('btn.setting', '起局中…');
+  try {
+    let res;
+    try {
+      const longitude = await Location.get();
+      const fetchPromise = AccessCode.authedFetch('/api/qimen/divine', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ question: q, questionType: qt, longitude })
+      });
+      res = await Ritual.run({ kind: 'qimen', question: q, fetchPromise });
+    } catch (e) {
+      alert(e.message || tr('msg.set.failed', '起局失敗'));
+      return;
+    }
+    const data = await res.json();
+    if (!res.ok) { alert(data.error || tr('msg.set.failed', '起局失敗')); return; }
+    render(data);
+    window.Journal.renderYinXin({
+      kind: 'qimen', data,
+      mountId: 'yinxinSlot',
+      question: q, questionType: qt,
+      headline: (data.dun || '') + '遁第' + data.ju + '局　·　值符 ' + (data.zhiFuStar || ''),
+      ganzhiTime: data.time
+    });
+    document.getElementById('resultCard').scrollIntoView({behavior:'smooth', block:'start'});
+  } finally {
+    btn.disabled = false;
+    btn.querySelector('.btn-main').textContent = tr('qimen.btn.divine', '起　局');
+  }
+}
+
+function render(d) {
+  document.getElementById('resultCard').hidden = false;
+
+  // 元信息
+  const metaItems = [
+    ['時　刻', d.time],
+    ['四　柱', `${d.yearGZ} ${d.monthGZ} ${d.dayGZ} ${d.hourGZ}`],
+    ['節　氣', d.jieqi],
+    ['陰陽遁', `${d.dun} · ${d.yuan} · 第${d.ju}局`],
+    ['時柱旬首', `${d.xunshou}（遁干 ${d.dungan}）`],
+    ['旬　空', `${d.xunKong[0]}、${d.xunKong[1]}`],
+    ['值　符', `${d.zhiFuStar} 落 ${d.zhiFuPalace}`],
+    ['值　使', `${d.zhiShiGate} 落 ${d.zhiShiPalace}`],
+    ['驛　馬', d.yiMaZhi],
+  ];
+  document.getElementById('metaGrid').innerHTML = metaItems
+    .map(([k, v]) => `<div class="item"><span class="lbl">${k}</span><span class="val">${v}</span></div>`)
+    .join('');
+
+  // 计算日干/时干落宫（甲遁于旬首六仪）
+  const resolveStem = (stem) => stem === '甲' ? d.dungan : stem;
+  const dayStemLookup = resolveStem(d.dayGZ ? d.dayGZ.charAt(0) : '');
+  const hourStemLookup = resolveStem(d.hourGZ ? d.hourGZ.charAt(0) : '');
+  const findStemIdx = (stem) => {
+    if (!stem) return -1;
+    // 优先天盘，再地盘
+    for (let i = 0; i < 9; i++) if (d.cells[i].heavenStem === stem) return i;
+    for (let i = 0; i < 9; i++) if (d.cells[i].earthStem === stem) return i;
+    return -1;
+  };
+  const dayIdx = findStemIdx(dayStemLookup);
+  const hourIdx = findStemIdx(hourStemLookup);
+
+  // 九宫盘布局
+  const layout = [3, 8, 1, 2, 4, 6, 7, 0, 5];
+  const grid = document.getElementById('qimenGrid');
+  grid.innerHTML = '';
+
+  const wsClass = (ws) => {
+    const map = {'旺':'wang', '相':'xiang', '休':'xiu', '囚':'qiu', '死':'si'};
+    return map[ws] || '';
+  };
+
+  for (const idx of layout) {
+    const c = d.cells[idx];
+    const isMiddle = idx === 4;
+    const isZhiFu = c.palaceName === d.zhiFuPalace;
+    const isZhiShi = c.palaceName === d.zhiShiPalace;
+    const isDay = idx === dayIdx;
+    const isHour = idx === hourIdx;
+    const classes = ['qm-cell'];
+    if (isMiddle) classes.push('middle');
+    if (isZhiFu && !isMiddle) classes.push('zhifu');
+    if (isZhiShi && !isMiddle && !isZhiFu) classes.push('zhishi');
+    if (isDay) classes.push('daygan');
+    if (isHour) classes.push('hourgan');
+
+    // 右上角标记
+    const markBits = [];
+    if (c.isVoid) markBits.push('<span class="void">空</span>');
+    if (c.isYima) markBits.push('<span class="yima">马</span>');
+    if (c.isTianStemMu || c.isEarthStemMu) markBits.push('<span class="mu">墓</span>');
+    if (c.isJiXing) markBits.push('<span class="xing">刑</span>');
+    if (c.isDoorPo) markBits.push('<span class="po">迫</span>');
+    const marks = markBits.join('');
+
+    // 下方标签
+    const dayTag = isDay ? '<span class="qm-tag qm-tag-day">日</span>' : '';
+    const hourTag = isHour ? '<span class="qm-tag qm-tag-hour">时</span>' : '';
+
+    // 门宫关系小字
+    let doorRel = '';
+    if (c.isDoorPo) doorRel = '<div class="qm-door-rel po">门迫</div>';
+    else if (c.isDoorSheng) doorRel = '<div class="qm-door-rel sheng">门得生</div>';
+    else if (c.doorPalaceRel && !isMiddle) doorRel = `<div class="qm-door-rel">${c.doorPalaceRel}</div>`;
+
+    // 九星旺衰小字
+    const wsTag = c.starWangShuai ? `<span class="qm-wangshuai ${wsClass(c.starWangShuai)}">${c.starWangShuai}</span>` : '';
+
+    let inner;
+    if (isMiddle) {
+      inner = `
+        <div class="qm-god">${c.god || '—'}</div>
+        <div class="qm-star">${c.star} ${wsTag}</div>
+        <div class="qm-stems"><span class="qm-earth">${c.earthStem}</span></div>
+        <div class="qm-door">寄 坤 二</div>
+        <div class="qm-palace">${c.palaceName}</div>
+      `;
+    } else {
+      inner = `
+        <div class="qm-god">${c.god || '—'}</div>
+        <div class="qm-star">${c.star} ${wsTag}</div>
+        <div class="qm-stems"><span class="qm-heaven">${c.heavenStem || '—'}</span> <span class="qm-earth">${c.earthStem}</span></div>
+        <div class="qm-door">${c.door || '—'}</div>
+        ${doorRel}
+        <div class="qm-palace">${c.palaceName}</div>
+      `;
+    }
+    const cell = document.createElement('div');
+    cell.className = classes.join(' ');
+    cell.innerHTML = (marks ? `<div class="qm-marks">${marks}</div>` : '') + inner + dayTag + hourTag;
+    grid.appendChild(cell);
+  }
+
+  // 命中格局
+  const patternsBox = document.getElementById('patternsBox');
+  const patternsHeader = document.getElementById('patternsHeader');
+  if (d.patterns && d.patterns.length) {
+    patternsHeader.hidden = false;
+    patternsBox.hidden = false;
+    const aucLabel = (s) => s >= 2 ? '大吉' : s === 1 ? '吉' : s === -1 ? '凶' : s <= -2 ? '大凶' : '平';
+    const aucClass = (s) => s >= 2 ? 'daji' : s === 1 ? 'ji' : s === -1 ? 'xiong' : s <= -2 ? 'daxiong' : '';
+    const catClass = (cat) => cat === '吉格' ? 'ji' : cat === '凶格' ? 'xiong' : '';
+    patternsBox.innerHTML = d.patterns.map(p => `
+      <div class="pattern-item ${catClass(p.category)}">
+        <span class="name">${p.name}</span>
+        <span class="auc ${aucClass(p.auspiceScore)}">${aucLabel(p.auspiceScore)}</span>
+        ${p.palaceName ? ` · ${p.palaceName}` : ''}
+        <br>${p.summary}
+        <span class="classic">古籍：${p.classic}</span>
+      </div>
+    `).join('');
+  } else {
+    patternsHeader.hidden = true;
+    patternsBox.hidden = true;
+  }
+
+  document.getElementById('promptBox').textContent = d.prompt;
+}
+
+document.getElementById('btnDivine').addEventListener('click', doDivine);
+document.getElementById('btnCopy').addEventListener('click', () => {
+  const txt = document.getElementById('promptBox').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const s = document.getElementById('copyStatus');
+    s.classList.add('show');
+    setTimeout(() => s.classList.remove('show'), 1500);
+  });
+});
+</script>
+</body>
+</html>

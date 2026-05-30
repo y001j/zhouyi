@@ -1,0 +1,37 @@
+# ===== 密码与运行时数据（绝不提交）=====
+config.json
+admin.conf
+codes.json
+codes.json.tmp
+
+# ===== 编译产物（走 GitHub Releases，不入仓库）=====
+zhouyi
+zhouyi-linux-amd64
+# skill 分发包内的多平台二进制：作为 Release 附件分发，源码仓库不收
+.claude/skills/zhouyi-divination/bin/
+
+# 打包分发产物（走 GitHub Releases，不入仓库）
+/dist/
+
+# ===== 任意层级的 PDF 一律排除（版权 + 体积）=====
+*.pdf
+
+# ===== docs/ 整个目录不公开发布 =====
+# 内含受版权保护的典籍扫描/OCR 全文、内部研究笔记与提取素材，
+# 既有版权顾虑，对用户使用本工具也非必需。仅本地保留。
+docs/
+
+# ===== IDE / 工具 / 系统文件 =====
+.idea/
+.playwright-mcp/
+.DS_Store
+**/.DS_Store
+
+# ===== 测试日志 =====
+*.log
+
+# ===== Claude Code 运行时文件（保留 skills，排除运行时状态）=====
+.claude/scheduled_tasks.lock
+.claude/settings.local.json
+.claude/projects/
+.claude/memory/

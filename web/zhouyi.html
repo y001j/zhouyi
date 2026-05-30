@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title data-i18n="zhouyi.title">周易筮占 · 起卦與解卦</title>
+<link rel="stylesheet" href="/style.css" />
+<script src="/i18n-en.js?v=5"></script>
+<script src="/i18n.js?v=5"></script>
+</head>
+<body>
+<div class="paper-bg" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="vert-motto left" data-i18n="zhouyi.motto.left">易有太極　是生兩儀</div>
+    <div class="title-block">
+      <div class="seal">卜</div>
+      <h1 data-i18n="zhouyi.header.title">周　易　筮　占</h1>
+      <p class="subtitle" data-i18n="zhouyi.subtitle">兩儀生四象　四象生八卦　八卦定吉凶</p>
+    </div>
+    <div class="vert-motto right" data-i18n="zhouyi.motto.right">兩儀生四象　四象生八卦</div>
+  </div>
+</header>
+
+<nav class="sub-nav">
+  <a href="/" data-i18n="nav.home">卜筮明心</a>
+  <span class="sep">｜</span>
+  <span class="here" data-i18n="nav.zhouyi">周易筮占</span>
+  <span class="sep">｜</span>
+  <a href="/liuren.html" data-i18n="nav.liuren">大六壬起課</a>
+  <span class="sep">｜</span>
+  <a href="/qimen.html" data-i18n="nav.qimen">奇門遁甲</a>
+  <span class="sep">｜</span>
+  <a href="/huican.html" data-i18n="nav.huican">三式互參</a>
+  <span class="sep">｜</span>
+  <a href="/journal.html" data-i18n="nav.journal">筮　錄</a>
+  <span class="lang-switch" role="group" aria-label="Language">
+    <a data-lang-switch="zh-TW" title="繁體中文">繁</a><a data-lang-switch="zh-CN" title="简体中文">简</a><a data-lang-switch="zh-mod" title="现代汉语">白话</a>
+  </span>
+</nav>
+
+<main class="container">
+  <div class="preface-tip"><span class="pt-line"><span class="pt-ico">✎</span> <span class="pt-strong" data-i18n="zhouyi.preface.tip">占卦有法，不可輕用</span> —— <a href="/" data-i18n="zhouyi.preface.tip.link">請先閱讀「卜筮明心」</a></span><span class="pt-sub" data-i18n="zhouyi.preface.tip.sub">無事不占　·　一事不二占　·　小事不占　·　邪事不占　·　已決不占　·　代占須慎</span></div>
+
+  <!-- 周易简介 -->
+  <section class="panel intro-panel">
+    <details>
+      <summary><span data-i18n="zhouyi.intro.summary">周易筮占 · 法門簡介</span><span class="chev">▾</span></summary>
+      <div class="intro-body" data-i18n-keep>
+        <div class="intro-lead">
+          周易為群經之首，以陰陽兩爻演為八卦，八卦相盪成六十四卦。筮占之法取三枚銅錢或蓍草，六擲成卦，以本卦顯事之象、變爻示動之機、之卦顯後續走向。
+          <span class="quote">——「書不盡言，言不盡意」，卦爻所顯乃事之象義，而非具體人事。</span>
+        </div>
+        <div class="intro-grid">
+          <div class="intro-card">
+            <div class="ic-title"><span class="ic-ico">特</span>特點</div>
+            <ul>
+              <li>以「象」解事：卦爻之象對應人事之理</li>
+              <li>六十四卦涵蓋一切情境，重在「時位」</li>
+              <li>變爻為關鍵：揭示事情轉折之機</li>
+            </ul>
+          </div>
+          <div class="intro-card">
+            <div class="ic-title"><span class="ic-ico">功</span>功能</div>
+            <ul>
+              <li>闡明所問之事的「整體格局」與「走向」</li>
+              <li>給出「宜動/宜靜、進退出處」的原則指引</li>
+              <li>以卦德、爻辭提供行事智慧與處世心法</li>
+            </ul>
+          </div>
+          <div class="intro-card neutral">
+            <div class="ic-title"><span class="ic-ico">優</span>優勢</div>
+            <ul>
+              <li>起卦門檻低，三錢即可，適合日常反覆問事</li>
+              <li>卦辭象辭典雅深厚，啟發性強</li>
+              <li>適於「大方向、哲理性」問題，如抉擇、處世</li>
+            </ul>
+          </div>
+          <div class="intro-card weak">
+            <div class="ic-title"><span class="ic-ico">拙</span>不足</div>
+            <ul>
+              <li>精確時間、方位、人事細節稍弱</li>
+              <li>同一卦象不同情境解法差異大，倚重解卦功力</li>
+              <li>變爻多寡影響斷法繁簡，初學者易失所從</li>
+            </ul>
+          </div>
+        </div>
+        <div class="intro-tips">
+          <div class="it-title">使用建議</div>
+          <ol>
+            <li>問事前默念所問之事，誠心凝神片刻，一事一占，不宜重複追問。</li>
+            <li>所問以「是否應做」「將如何發展」「宜取何態度」為佳，不宜問「具體數字」或「確切時間點」。</li>
+            <li>起卦後先看卦名卦辭得其總象，再觀變爻之辭把握轉折，末參之卦察其終局。</li>
+            <li>若偏重「人事細節」（誰、何時、何處），建議改用大六壬；若偏重「方位時機、謀事布局」，建議改用奇門遁甲；重大事宜可用「三式互參」互相印證。</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- 起卦面板 -->
+  <section class="panel" id="divinePanel">
+    <div class="panel-title"><span class="ord">壹</span><span class="name">起　卦</span></div>
+
+    <div class="field">
+      <label data-i18n="zhouyi.method.label">起卦之法</label>
+      <div class="method-tabs">
+        <button type="button" class="tab" data-method="coin">
+          <div class="tab-title" data-i18n="zhouyi.method.coin">銅錢法</div>
+          <div class="tab-sub" data-i18n="zhouyi.method.coin.sub">三錢六擲</div>
+        </button>
+        <button type="button" class="tab active" data-method="yarrow">
+          <div class="tab-title" data-i18n="zhouyi.method.yarrow">蓍草法</div>
+          <div class="tab-sub" data-i18n="zhouyi.method.yarrow.sub">大衍揲蓍</div>
+        </button>
+        <button type="button" class="tab" data-method="number">
+          <div class="tab-title" data-i18n="zhouyi.method.number">數字法</div>
+          <div class="tab-sub" data-i18n="zhouyi.method.number.sub">隨機起卦</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="field" id="numberFields" hidden>
+      <label data-i18n="zhouyi.number.label">數字起卦參數</label>
+      <div class="num-inputs">
+        <input type="number" id="upper" placeholder="上卦數" data-i18n-attr="placeholder:zhouyi.number.upper.placeholder" />
+        <input type="number" id="lower" placeholder="下卦數" data-i18n-attr="placeholder:zhouyi.number.lower.placeholder" />
+        <input type="number" id="changing" placeholder="變爻 0-6" min="0" max="6" data-i18n-attr="placeholder:zhouyi.number.changing.placeholder" />
+      </div>
+      <p class="hint" data-i18n="zhouyi.number.hint">任意整數自動取模為 1-8；變爻 0 表示無變爻。</p>
+    </div>
+
+    <div class="field">
+      <label for="question" data-i18n="form.question.label">所問之事（可留空）</label>
+      <textarea id="question" rows="2" placeholder="默想片刻，寫下心中所問……" data-i18n-attr="placeholder:form.question.placeholder"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="questionType" data-i18n="form.qtype.label">問題所屬</label>
+      <select id="questionType"></select>
+    </div>
+
+    <div class="action-row">
+      <button id="divineBtn" class="primary">
+        <span class="btn-main" data-i18n="zhouyi.btn.divine">起　卦</span>
+        <span class="btn-sub" data-i18n="zhouyi.btn.divine.sub">凝神靜氣，心誠則靈</span>
+      </button>
+    </div>
+    <div id="divineStatus" class="status" hidden></div>
+  </section>
+
+  <!-- 结果面板 -->
+  <section id="resultSection" class="panel" hidden>
+    <div class="panel-title"><span class="ord">貳</span><span class="name" data-i18n="zhouyi.section.hex">卦　象</span></div>
+    <div id="yinxinSlot"></div>
+
+    <div class="hex-overview" data-i18n-keep>
+      <div class="hex-art-wrap">
+        <div class="hex-art" id="hexArt"></div>
+      </div>
+      <div class="hex-meta" id="hexMeta"></div>
+    </div>
+
+    <div class="block" id="linesBlock">
+      <h3><span class="cn-dash"></span><span data-i18n="zhouyi.section.lines">六爻詳情</span><span class="cn-dash"></span></h3>
+      <table class="lines-table">
+        <thead>
+          <tr><th data-i18n="zhouyi.lines.col.position">爻位</th><th data-i18n="zhouyi.lines.col.value">值</th><th data-i18n="zhouyi.lines.col.type">類型</th><th data-i18n="zhouyi.lines.col.sym">爻形</th><th data-i18n="zhouyi.lines.col.text">爻辭</th></tr>
+        </thead>
+        <tbody id="linesBody" data-i18n-keep></tbody>
+      </table>
+    </div>
+
+    <div class="block" id="mainHexBlock">
+      <h3><span class="cn-dash"></span><span data-i18n="zhouyi.section.mainhex">本　卦</span><span class="cn-dash"></span></h3>
+      <div id="mainHexInfo" data-i18n-keep></div>
+    </div>
+
+    <div class="block" id="changeHexBlock" hidden>
+      <h3><span class="cn-dash"></span><span data-i18n="zhouyi.section.changehex">變卦（之卦）</span><span class="cn-dash"></span></h3>
+      <div id="changeHexInfo" data-i18n-keep></div>
+    </div>
+
+    <div class="block">
+      <h3><span class="cn-dash"></span><span data-i18n="zhouyi.section.derived">衍生卦象</span><span class="cn-dash"></span></h3>
+      <div class="derived-grid" id="derivedGrid" data-i18n-keep></div>
+    </div>
+
+    <div class="block" id="timingBlock" hidden>
+      <h3><span class="cn-dash"></span><span data-i18n="zhouyi.section.timing">起卦時令</span><span class="cn-dash"></span></h3>
+      <div id="timingInfo" data-i18n-keep></div>
+    </div>
+
+    <div class="block">
+      <h3><span class="cn-dash"></span><span data-i18n="zhouyi.section.guide">解卦指引</span><span class="cn-dash"></span></h3>
+      <pre class="guide" id="guide" data-i18n-keep></pre>
+    </div>
+  </section>
+
+  <!-- AI 提示词面板 -->
+  <section id="promptSection" class="panel" hidden>
+    <div class="panel-title"><span class="ord">叁</span><span class="name" data-i18n="zhouyi.section.prompt">解卦之詞</span></div>
+    <p class="hint" data-i18n="zhouyi.prompt.hint">此為解卦提示詞，可持之問道於博學之 AI，得其詳解。</p>
+    <div class="prompt-toolbar">
+      <button id="copyPromptBtn" class="secondary" data-i18n="zhouyi.btn.copy">複製提示詞</button>
+      <span id="copyStatus" class="copy-status"></span>
+    </div>
+    <textarea id="promptText" rows="20" readonly data-i18n-keep></textarea>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-line"></div>
+  <p data-i18n="zhouyi.footer">陰陽流轉　生生不息</p>
+</footer>
+
+<!-- 起卦仪式遮罩 -->
+<div id="ritualOverlay" class="ritual-overlay" hidden>
+  <div class="ritual-bg"></div>
+  <div class="ritual-content">
+    <div class="ritual-seal">易</div>
+
+    <!-- 第一阶段：凝神 -->
+    <div class="ritual-stage" id="stageMeditate" hidden>
+      <div class="ritual-title" data-i18n="zhouyi.ritual.meditate">凝神靜氣</div>
+      <div class="ritual-quote" data-i18n="zhouyi.ritual.quote">心之所繫　筮之所應<br/>不誠不占　不疑不卜</div>
+      <div class="ritual-question" id="ritualQuestion"></div>
+      <div class="ritual-countdown" id="ritualCountdown">三</div>
+      <div class="ritual-hint" data-i18n="zhouyi.ritual.hint">默念所問之事……</div>
+    </div>
+
+    <!-- 第二阶段：起卦动画 -->
+    <div class="ritual-stage" id="stageShaking" hidden>
+      <div class="ritual-title" id="shakingTitle">搖　卦</div>
+      <div class="ritual-coins" id="coinStage">
+        <div class="coin"><span>乾</span></div>
+        <div class="coin"><span>坤</span></div>
+        <div class="coin"><span>易</span></div>
+      </div>
+      <div class="ritual-hint" id="shakingHint">三錢入掌　六擲成卦……</div>
+    </div>
+
+    <!-- 第三阶段：逐爻揭开 -->
+    <div class="ritual-stage" id="stageReveal" hidden>
+      <div class="ritual-title" data-i18n="zhouyi.ritual.reveal">卦象既成</div>
+      <div class="ritual-hex" id="revealHex"></div>
+      <div class="ritual-hint" id="revealHint" data-i18n="zhouyi.ritual.reveal.hint">自初爻至上爻，次第顯現……</div>
+    </div>
+
+    <button id="ritualSkip" class="ritual-skip" data-i18n="zhouyi.ritual.skip">跳過儀式</button>
+  </div>
+</div>
+
+<script src="/access.js"></script>
+<script src="/location.js"></script>
+<script src="/app.js"></script>
+<script src="/regions.js"></script>
+<script src="/querent.js"></script>
+<script src="/journal.js"></script>
+<script>
+// 进入页面强制要求填写命主信息
+document.addEventListener('DOMContentLoaded', () => window.Querent.requireOrPrompt());
+</script>
+</body>
+</html>

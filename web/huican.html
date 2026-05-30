@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title data-i18n="huican.title">周易 × 大六壬 × 奇門遁甲 · 三式互參</title>
+<link rel="stylesheet" href="/style.css" />
+<script src="/i18n-en.js?v=5"></script>
+<script src="/i18n.js?v=5"></script>
+</head>
+<body>
+<div class="paper-bg" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="vert-motto left" data-i18n="huican.motto.left">同時起占　三式互參</div>
+    <div class="title-block">
+      <div class="seal">參</div>
+      <h1 data-i18n="huican.header.title">周易 × 大六壬 × 奇門遁甲</h1>
+      <p class="subtitle" data-i18n="huican.subtitle">一問三占　互為印證　三盤同參</p>
+    </div>
+    <div class="vert-motto right" data-i18n="huican.motto.right">卦顯象義　壬主人事　奇定機方</div>
+  </div>
+</header>
+
+<nav class="sub-nav">
+  <a href="/" data-i18n="nav.home">卜筮明心</a>
+  <span class="sep">｜</span>
+  <a href="/zhouyi.html" data-i18n="nav.zhouyi">周易筮占</a>
+  <span class="sep">｜</span>
+  <a href="/liuren.html" data-i18n="nav.liuren">大六壬起課</a>
+  <span class="sep">｜</span>
+  <a href="/qimen.html" data-i18n="nav.qimen">奇門遁甲</a>
+  <span class="sep">｜</span>
+  <span class="here" data-i18n="nav.huican">三式互參</span>
+  <span class="sep">｜</span>
+  <a href="/journal.html" data-i18n="nav.journal">筮　錄</a>
+  <span class="lang-switch" role="group" aria-label="Language">
+    <a data-lang-switch="zh-TW" title="繁體中文">繁</a><a data-lang-switch="zh-CN" title="简体中文">简</a><a data-lang-switch="zh-mod" title="现代汉语">白话</a>
+  </span>
+</nav>
+
+<main class="container">
+  <div class="preface-tip"><span class="pt-line"><span class="pt-ico">✎</span> <span class="pt-strong" data-i18n="zhouyi.preface.tip">占卦有法，不可輕用</span> —— <a href="/" data-i18n="zhouyi.preface.tip.link">請先閱讀「卜筮明心」</a></span><span class="pt-sub" data-i18n="zhouyi.preface.tip.sub">無事不占　·　一事不二占　·　小事不占　·　邪事不占　·　已決不占　·　代占須慎</span></div>
+
+  <!-- 三式互参简介 -->
+  <section class="panel intro-panel">
+    <details>
+      <summary><span data-i18n="huican.intro.summary">三式互參 · 法門簡介與三式對照</span><span class="chev">▾</span></summary>
+      <div class="intro-body" data-i18n-keep>
+        <div class="intro-lead">
+          三式互參者，同一時刻同時起「周易卦 · 大六壬課 · 奇門時家局」，三盤互為印證，各擅其長、彼此補全。
+          三式分工：<strong>周易主「象義」</strong>（事之理與走向）、<strong>六壬主「人事」</strong>（誰、何情、何應期）、<strong>奇門主「機變」</strong>（何方、何時、何策）。
+          <span class="quote">——三系同指則信度最高；兩系同指為中；三系分歧則宜以「類神直指之系」為主裁。</span>
+        </div>
+
+        <h3 style="margin-top: 12px;"><span class="cn-dash"></span>三式對照<span class="cn-dash"></span></h3>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>維度</th>
+              <th>周易筮占</th>
+              <th>大六壬</th>
+              <th>奇門遁甲</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>所主</th>
+              <td data-label="所主">事之象義、哲理走向</td>
+              <td data-label="所主">人事細節、應期情態</td>
+              <td data-label="所主">方位時機、謀事布局</td>
+            </tr>
+            <tr>
+              <th>起法</th>
+              <td data-label="起法">三錢六擲 / 蓍草 / 數字</td>
+              <td data-label="起法">占時＋月將布天地盤</td>
+              <td data-label="起法">節氣＋時家拆補起局</td>
+            </tr>
+            <tr>
+              <th>所擅</th>
+              <td data-label="所擅">抉擇、處世、大方向</td>
+              <td data-label="所擅">來人來意、失物行人、官非</td>
+              <td data-label="所擅">出行、面試、求財、擇吉方</td>
+            </tr>
+            <tr>
+              <th>所短</th>
+              <td data-label="所短">人事細節、精確應期</td>
+              <td data-label="所短">宏觀格局、長程走向</td>
+              <td data-label="所短">情感細膩、被動應事</td>
+            </tr>
+            <tr>
+              <th>應期</th>
+              <td data-label="應期">以變爻干支、月令推</td>
+              <td data-label="應期">三傳日支、精到日時</td>
+              <td data-label="應期">值使地支、節氣節點</td>
+            </tr>
+            <tr>
+              <th>最宜問</th>
+              <td data-label="最宜問">進退取捨、事之理</td>
+              <td data-label="最宜問">人事成敗、應期吉凶</td>
+              <td data-label="最宜問">何方何時動、謀事布局</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 style="margin-top: 22px;"><span class="cn-dash"></span>互參優勢與使用建議<span class="cn-dash"></span></h3>
+        <div class="intro-grid">
+          <div class="intro-card">
+            <div class="ic-title"><span class="ic-ico">優</span>互參優勢</div>
+            <ul>
+              <li><strong>三系同指</strong>：信度最高，斷事可為定論</li>
+              <li><strong>三式互補</strong>：周易顯象、六壬添人、奇門定方</li>
+              <li><strong>異系暗示</strong>：若一系獨異，往往為暗礁或轉機所在</li>
+              <li>關鍵信號、類神直指、命中格局皆已代碼預抽取，無需自檢</li>
+            </ul>
+          </div>
+          <div class="intro-card weak">
+            <div class="ic-title"><span class="ic-ico">拙</span>互參局限</div>
+            <ul>
+              <li>三盤解讀量較大，適合重大事宜而非日常瑣事</li>
+              <li>三系分歧時需靠解讀者取捨主輔</li>
+              <li>起占同用當下時刻，不宜連續重複問同一事</li>
+              <li>AI 解讀供參考，終決仍在問事者自身</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="intro-tips">
+          <div class="it-title">互參使用建議</div>
+          <ol>
+            <li><strong>何時宜用三式互參</strong>：人生重大抉擇（婚姻、擇業、投資、遷徙）、疑難久懸不決之事、單一占法所得不甚明了需要交叉印證之時。</li>
+            <li><strong>何時不必互參</strong>：日常瑣事、心中已有傾向只為求個印證、短期小事——用單一方法即可，不必勞師動眾。</li>
+            <li><strong>問題類型要選對</strong>：三式對六類問題（事業/財運/感情/健康/抉擇/時運）皆有對應的類神直指，選擇正確類型可大幅提升精度。</li>
+            <li><strong>解讀次第</strong>：先看「三系互參信號」掌握總體共識，再逐一查看三系本盤細節，末讀 AI 提示詞獲取綜合判斷。</li>
+            <li><strong>心態要端正</strong>：一事一占，不疑不卜，不誠不占。占得不吉之卦勿懊惱——聖人作易本為避凶趨吉，得凶象正是示警使人省思。</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- 起占 -->
+  <section class="panel" id="divinePanel">
+    <div class="panel-title"><span class="ord">壹</span><span class="name">起　占</span></div>
+
+    <div class="field-row">
+      <div class="field wide">
+        <label for="question" data-i18n="form.question.label">所問之事（可留空）</label>
+        <textarea id="question" placeholder="凝神默念所問之事……" data-i18n-attr="placeholder:form.question.placeholder"></textarea>
+      </div>
+      <div class="field">
+        <label for="qtype" data-i18n="form.qtype.label">問題類型</label>
+        <select id="qtype">
+          <option value="" data-i18n="form.qtype.other">其他 / 不指定</option>
+          <option value="career" data-i18n="form.qtype.career">事業 / 工作</option>
+          <option value="wealth" data-i18n="form.qtype.wealth">財運 / 投資</option>
+          <option value="relation" data-i18n="form.qtype.relation">感情 / 姻緣</option>
+          <option value="health" data-i18n="form.qtype.health">健康 / 身心</option>
+          <option value="decision" data-i18n="form.qtype.decision">抉擇 / 兩難</option>
+          <option value="timing" data-i18n="form.qtype.timing">時運 / 吉凶</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button id="btnDivine" class="primary" type="button">
+        <span class="btn-main" data-i18n="huican.btn.divine">起　占</span>
+        <span class="btn-sub" data-i18n="huican.btn.divine.sub">三式互參</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 结果 -->
+  <section class="panel" id="resultCard" hidden>
+    <div class="panel-title"><span class="ord">貳</span><span class="name">結　果</span></div>
+    <div id="yinxinSlot"></div>
+
+    <div class="time-line" id="timeBox" data-i18n-keep></div>
+
+    <div class="huican-cols three">
+      <div class="col">
+        <div class="col-title" data-i18n="huican.col.zhouyi">周　易</div>
+        <div id="hexBox" data-i18n-keep></div>
+      </div>
+      <div class="col">
+        <div class="col-title" data-i18n="huican.col.liuren">大六壬</div>
+        <div id="liurenBox" class="liuren-summary" data-i18n-keep><div class="empty-hint" style="text-align:center;">—</div></div>
+      </div>
+      <div class="col">
+        <div class="col-title" data-i18n="huican.col.qimen">奇門遁甲</div>
+        <div id="qimenBox" class="qimen-summary" data-i18n-keep><div class="empty-hint" style="text-align:center;">—</div></div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:26px;"><span class="cn-dash"></span><span data-i18n="huican.section.prompt">互參 AI 提示詞</span><span class="cn-dash"></span></h3>
+    <div class="prompt-toolbar">
+      <button id="btnCopy" class="secondary" type="button" data-i18n="huican.btn.copy">複　製</button>
+      <span class="copy-status" id="copyStatus" data-i18n="huican.copied">已複製</span>
+    </div>
+    <div id="promptBox" class="prompt-scroll" data-i18n-keep></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-line"></div>
+  <span data-i18n="huican.footer">卦　壬　互　證　　吉　凶　自　明</span>
+</footer>
+
+<script src="/access.js"></script>
+<script src="/location.js"></script>
+<script src="/ritual.js"></script>
+<script src="/regions.js"></script>
+<script src="/querent.js"></script>
+<script src="/journal.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => window.Querent.requireOrPrompt());
+
+async function doDivine() {
+  const q = document.getElementById('question').value.trim();
+  const qt = document.getElementById('qtype').value;
+  const btn = document.getElementById('btnDivine');
+  btn.disabled = true;
+  const tr = (k, f) => (window.I18n && window.I18n.t) ? window.I18n.t(k, f) : f;
+  btn.querySelector('.btn-main').textContent = tr('btn.divining', '起占中…');
+  try {
+    let res;
+    try {
+      const longitude = await Location.get();
+      const fetchPromise = AccessCode.authedFetch('/api/huican/divine', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ question: q, questionType: qt, longitude })
+      });
+      res = await Ritual.run({ kind: 'huican', question: q, fetchPromise });
+    } catch (e) {
+      alert(e.message || tr('msg.cast.failed', '起占失敗'));
+      return;
+    }
+    const data = await res.json();
+    if (!res.ok) { alert(data.error || tr('msg.cast.failed', '起占失敗')); return; }
+    render(data);
+    // 印心小卡：注入到 resultCard 顶部
+    const headlineParts = [];
+    if (data.mainHex) headlineParts.push(data.mainHex.name + '卦');
+    if (data.liuren && data.liuren.keTiName) headlineParts.push(data.liuren.keTiName);
+    if (data.qimen) headlineParts.push((data.qimen.dun || '') + '遁第' + data.qimen.ju + '局');
+    window.Journal.renderYinXin({
+      kind: 'huican', data,
+      mountId: 'yinxinSlot',
+      question: q, questionType: qt,
+      headline: headlineParts.join(' · '),
+      ganzhiTime: data.time
+    });
+    document.getElementById('resultCard').scrollIntoView({behavior:'smooth', block:'start'});
+  } finally {
+    btn.disabled = false;
+    btn.querySelector('.btn-main').textContent = tr('huican.btn.divine', '起　占');
+  }
+}
+
+function aucClass(score) {
+  if (score >= 2) return 'daji';
+  if (score === 1) return 'ji';
+  if (score === -1) return 'xiong';
+  if (score <= -2) return 'daxiong';
+  return '';
+}
+function aucLabel(score) {
+  if (score >= 2) return '大吉';
+  if (score === 1) return '吉';
+  if (score === -1) return '凶';
+  if (score <= -2) return '大凶';
+  return '平';
+}
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function render(d) {
+  document.getElementById('resultCard').hidden = false;
+  document.getElementById('timeBox').innerHTML = `<strong>時　刻</strong>　${esc(d.time)}`;
+
+  // 周易栏
+  const hexBox = document.getElementById('hexBox');
+  if (d.mainHex) {
+    let html = '';
+    html += `<div class="hex-symbol-lg">${d.mainHex.symbol}</div>`;
+    html += `<div class="hex-title">第${d.mainHex.number}卦 · ${d.mainHex.name}卦</div>`;
+    html += `<div class="hex-line"><span class="label">卦辭</span>${esc(d.mainHex.judgment)}</div>`;
+    html += `<div class="hex-line"><span class="label">象辭</span>${esc(d.mainHex.image)}</div>`;
+    if (d.changingPos && d.changingPos.length) {
+      html += `<div class="hex-line"><span class="label">變爻</span><span class="change-note">第 ${d.changingPos.join('、')} 爻</span></div>`;
+      if (d.changeHex) {
+        html += `<div class="hex-line"><span class="label">變卦</span>${d.changeHex.symbol} 第${d.changeHex.number}卦 ${esc(d.changeHex.name)} —— ${esc(d.changeHex.judgment)}</div>`;
+      }
+    } else {
+      html += `<div class="hex-line"><span class="label">變爻</span>無</div>`;
+    }
+    hexBox.innerHTML = html;
+  }
+
+  // 大六壬栏：直接用 d.liuren
+  const lBox = document.getElementById('liurenBox');
+  const ld = d.liuren;
+  if (ld) {
+    let html = '';
+    html += `<div class="kt">${esc(ld.keTiName)}</div>`;
+    html += `<div class="fa">發傳法：${esc(ld.method)}</div>`;
+    html += `<div class="meta">
+        <div><strong>日柱</strong>：${esc(ld.dayGan)}${esc(ld.dayZhi)}</div>
+        <div><strong>占時</strong>：${esc(ld.zhanShi)}　<strong>月將</strong>：${esc(ld.yueJiang)}（${esc(ld.qiName)}）</div>
+      </div>`;
+    html += `<div class="chuans"><div style="color:var(--ink-soft);letter-spacing:0.2em;font-size:0.82rem;margin-bottom:4px;">三　傳</div>`;
+    (ld.sanChuan || []).forEach(ce => {
+      const kg = ce.isKong ? ' <span class="kong">·空</span>' : '';
+      html += `<div class="chuan"><span style="color:var(--vermilion-dark);letter-spacing:0.2em;">${esc(ce.name)}</span><span class="dot">·</span>${esc(ce.zhi)}<span class="dot">·</span>${esc(ce.tianJiang)}<span class="dot">·</span>${esc(ce.liuQin)}${kg}</div>`;
+    });
+    html += `</div>`;
+    if (ld.tags && ld.tags.length) {
+      html += '<div class="tag-list" style="margin-top:10px;">';
+      ld.tags.forEach(t => {
+        html += `<span class="tag" title="${esc(t.summary || '')}">${esc(t.name)}</span>`;
+      });
+      html += '</div>';
+    }
+    lBox.innerHTML = html;
+  } else {
+    lBox.innerHTML = '<div class="empty-hint" style="text-align:center;color:var(--vermilion);">起課失敗</div>';
+  }
+
+  // 奇門遁甲栏：直接用 d.qimen
+  const qBox = document.getElementById('qimenBox');
+  const qd = d.qimen;
+  if (qd) {
+    // 找日干/时干所在宫（先找天盘，再找地盘；甲则换为旬首遁干）
+    const normStem = (gz) => {
+      let s = (gz || '').charAt(0);
+      if (s === '甲') s = (qd.dungan || '').charAt(0) || s;
+      return s;
+    };
+    const findStemIdx = (stem) => {
+      if (!stem) return -1;
+      for (let i = 0; i < 9; i++) if (qd.cells[i] && qd.cells[i].heavenStem === stem) return i;
+      for (let i = 0; i < 9; i++) if (qd.cells[i] && qd.cells[i].earthStem === stem) return i;
+      return -1;
+    };
+    const dayStem = normStem(qd.dayGZ);
+    const hourStem = normStem(qd.hourGZ);
+    const dayIdx = findStemIdx(dayStem);
+    const hourIdx = findStemIdx(hourStem);
+    let html = '';
+    html += `<div class="qm-head">${esc(qd.dun)}遁 · 第${qd.ju}局</div>`;
+    html += `<div class="qm-sub">${esc(qd.jieQi)}　${esc(qd.yuan)}元</div>`;
+    html += `<div class="qm-meta">
+        <div><strong>值符</strong>：${esc(qd.zhiFuStar)} 落 ${esc(qd.zhiFuPalace)}</div>
+        <div><strong>值使</strong>：${esc(qd.zhiShiGate)} 落 ${esc(qd.zhiShiPalace)}</div>
+        <div><strong>旬首</strong>：${esc(qd.xunshou)}（遁${esc(qd.dungan)}）　<strong>旬空</strong>：${esc(qd.xunKong.join('、'))}</div>
+      </div>`;
+    // 3x3 迷你盘：九宫方位布局
+    //   巽4  离9  坤2
+    //   震3  中5  兑7
+    //   艮8  坎1  乾6
+    // PalaceFei 为飞星序索引 0..8（坎1=0, 坤2=1, 震3=2, 巽4=3, 中5=4, 乾6=5, 兑7=6, 艮8=7, 离9=8）
+    const layout = [3, 8, 1, 2, 4, 6, 7, 0, 5];
+    html += '<div class="qm-mini">';
+    layout.forEach(idx => {
+      const c = qd.cells[idx];
+      if (!c) { html += '<div class="mc"></div>'; return; }
+      const isMiddle = idx === 4;
+      const classes = ['mc'];
+      if (isMiddle) classes.push('middle');
+      else if (c.palaceName === qd.zhiFuPalace) classes.push('zhifu');
+      else if (c.palaceName === qd.zhiShiPalace) classes.push('zhishi');
+      if (idx === dayIdx) classes.push('daygan');
+      if (idx === hourIdx) classes.push('hourgan');
+      let marks = '';
+      if (c.isVoid) marks += '<span class="kong">空</span>';
+      if (c.isYima) marks += '<span class="ma">马</span>';
+      html += `<div class="${classes.join(' ')}">`;
+      if (marks) html += `<div class="mk">${marks}</div>`;
+      html += `<div class="g">${esc(c.god || '')}</div>`;
+      html += `<div class="s">${esc(c.star || '')}</div>`;
+      if (isMiddle) {
+        html += `<div class="st">${esc(c.earthStem || '')}</div>`;
+        html += `<div class="d">寄坤二</div>`;
+      } else {
+        html += `<div class="st"><span class="hv">${esc(c.heavenStem || '')}</span>${esc(c.earthStem || '')}</div>`;
+        html += `<div class="d">${esc(c.door || '')}</div>`;
+      }
+      html += `<div class="p">${esc(c.palaceName || '')}</div>`;
+      html += '</div>';
+    });
+    html += '</div>';
+    // 格局（最多取 5 条，吉凶各优先）
+    if (qd.patterns && qd.patterns.length) {
+      const sorted = qd.patterns.slice().sort((a, b) => Math.abs(b.auspiceScore) - Math.abs(a.auspiceScore));
+      const top = sorted.slice(0, 5);
+      html += '<div class="qm-pat"><div class="qm-pat-title">命中格局</div>';
+      top.forEach(p => {
+        const cls = p.auspiceScore > 0 ? 'ji' : (p.auspiceScore < 0 ? 'xiong' : '');
+        html += `<div class="pi ${cls}"><span class="pn">${esc(p.name)}</span><span class="pa ${aucClass(p.auspiceScore)}">${aucLabel(p.auspiceScore)}</span>${p.palaceName ? '　<span style="color:var(--ink-faint);">'+esc(p.palaceName)+'</span>' : ''}</div>`;
+      });
+      html += '</div>';
+    }
+    qBox.innerHTML = html;
+  } else {
+    qBox.innerHTML = '<div class="empty-hint" style="text-align:center;color:var(--vermilion);">起局失敗</div>';
+  }
+
+  document.getElementById('promptBox').textContent = d.prompt;
+}
+
+document.getElementById('btnDivine').addEventListener('click', doDivine);
+document.getElementById('btnCopy').addEventListener('click', () => {
+  const txt = document.getElementById('promptBox').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const s = document.getElementById('copyStatus');
+    s.classList.add('show');
+    setTimeout(() => s.classList.remove('show'), 1500);
+  });
+});
+</script>
+</body>
+</html>

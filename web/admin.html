@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title data-i18n="admin.title">周易筮占 · 管理員</title>
+<link rel="stylesheet" href="/style.css" />
+<script src="/i18n-en.js?v=5"></script>
+<script src="/i18n.js?v=5"></script>
+<style>
+  :root {
+    --ink:#3a2a14;
+    --ink-soft:#5a4a2a;
+    --ink-muted:#7a6a4a;
+    --paper:#fdf6e3;
+    --paper-soft:#fffef7;
+    --line:#d6c19a;
+    --line-strong:#c9a96e;
+    --line-soft:#e8d9b3;
+    --accent:#8b1a1a;
+    --accent-strong:#a32424;
+    --accent-soft:#f7ecd0;
+    --ok:#2a6a2a;
+    --ok-bg:#e8f5e0;
+    --ok-bd:#a8d098;
+    --warn:#a35a1a;
+    --warn-bg:#fbeed3;
+    --warn-bd:#dfb978;
+    --err:#8b1a1a;
+    --err-bg:#fde8e8;
+    --err-bd:#e8a8a8;
+  }
+
+  body { color:var(--ink); }
+  .admin-wrap { max-width:1080px; margin:48px auto; padding:0 24px; }
+
+  /* 顶栏 */
+  .top-bar {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:0 4px; margin-bottom:20px;
+  }
+  .top-bar h1 {
+    font-family:'STKaiti',serif; color:var(--accent);
+    letter-spacing:.25em; margin:0; font-size:1.6rem; font-weight:600;
+  }
+  .top-actions { display:flex; gap:10px; align-items:center; }
+  .top-bar a {
+    color:var(--accent); text-decoration:none;
+    border:1px solid var(--accent); border-radius:4px;
+    padding:6px 14px; font-size:.9rem; letter-spacing:.1em;
+    transition:background .15s;
+  }
+  .top-bar a:hover { background:var(--accent); color:var(--paper); }
+  .top-actions button { padding:6px 14px; font-size:.9rem; letter-spacing:.1em; }
+
+  /* 卡片 */
+  .admin-card {
+    background:rgba(253,246,227,.82);
+    border:1px solid var(--line-strong);
+    border-radius:10px;
+    padding:28px 32px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(90,60,20,.06);
+  }
+  .admin-card h2 {
+    font-family:'STKaiti',serif; color:var(--accent);
+    margin:0 0 6px; letter-spacing:.18em; font-size:1.2rem; font-weight:600;
+    padding-bottom:10px; border-bottom:1px solid var(--line-soft);
+  }
+  .admin-card .hint {
+    color:var(--ink-muted); font-size:.88rem; margin:8px 0 16px;
+  }
+
+  /* 表单输入 */
+  input[type=password], input[type=text], input[type=number], select {
+    padding:7px 12px; border:1px solid var(--line-strong); border-radius:5px;
+    font-size:.95rem; background:var(--paper-soft); color:var(--ink);
+    font-family:inherit;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  input:focus, select:focus {
+    outline:none; border-color:var(--accent);
+    box-shadow:0 0 0 2px rgba(139,26,26,.12);
+  }
+  label.field {
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'STKaiti',serif; color:var(--ink-soft); letter-spacing:.05em;
+    font-size:.95rem;
+  }
+
+  /* 按钮 */
+  button {
+    padding:7px 16px; background:var(--accent); color:var(--paper);
+    border:1px solid var(--accent); border-radius:5px;
+    font-family:'STKaiti',serif; letter-spacing:.15em; cursor:pointer; font-size:.95rem;
+    transition:background .15s, color .15s, border-color .15s;
+  }
+  button:hover { background:var(--accent-strong); border-color:var(--accent-strong); }
+  button.ghost { background:transparent; color:var(--accent); }
+  button.ghost:hover { background:var(--accent); color:var(--paper); }
+  button.subtle {
+    background:transparent; color:var(--ink-soft);
+    border-color:var(--line-strong);
+  }
+  button.subtle:hover { background:var(--accent-soft); color:var(--ink); border-color:var(--ink-muted); }
+  button.danger { background:transparent; color:#a33; border-color:#c97a7a; }
+  button.danger:hover { background:#a33; color:#fff; border-color:#a33; }
+
+  /* 区段（卡片内多块分隔） */
+  .section { padding:14px 0; border-top:1px dashed var(--line-soft); }
+  .section:first-of-type { border-top:none; padding-top:4px; }
+  .section-title {
+    font-family:'STKaiti',serif; font-size:.95rem; letter-spacing:.15em;
+    color:var(--ink-soft); margin:0 0 10px;
+  }
+
+  /* 行 */
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .row + .row { margin-top:10px; }
+  .row .spacer { flex:1; }
+
+  /* 统计条 */
+  .stats-bar {
+    display:flex; gap:18px; align-items:center; flex-wrap:wrap;
+    padding:12px 16px; margin:4px 0 12px;
+    background:var(--accent-soft);
+    border:1px solid var(--line-soft); border-radius:6px;
+    font-size:.9rem; color:var(--ink-soft);
+  }
+  .stats-bar b { color:var(--accent); font-size:1.05rem; margin-right:2px; font-family:inherit; }
+  .stats-bar .stat { display:inline-flex; align-items:center; gap:6px; }
+  .stats-bar .sep { color:var(--line-strong); }
+
+  /* 表格 */
+  .table-wrap {
+    margin-top:8px; border:1px solid var(--line);
+    border-radius:6px; overflow:hidden; background:var(--paper-soft);
+  }
+  table { width:100%; border-collapse:collapse; font-size:.92rem; }
+  thead th {
+    background:#f0e3c0; font-family:'STKaiti',serif;
+    color:var(--ink); letter-spacing:.1em; font-weight:600;
+    padding:10px 12px; text-align:left;
+    border-bottom:1px solid var(--line-strong);
+    position:sticky; top:0; z-index:1;
+  }
+  tbody td { padding:9px 12px; border-bottom:1px solid var(--line-soft); vertical-align:middle; }
+  tbody tr:nth-child(even) { background:rgba(247,236,208,.35); }
+  tbody tr:hover { background:rgba(255,225,170,.5); }
+  tbody tr:last-child td { border-bottom:none; }
+
+  .code-cell { font-family:'Menlo','Consolas',monospace; font-size:1rem; letter-spacing:.08em; color:var(--ink); }
+
+  /* 状态 pill */
+  .pill {
+    display:inline-block; padding:2px 10px; border-radius:999px;
+    font-size:.82rem; letter-spacing:.05em; font-family:'STKaiti',serif;
+    border:1px solid currentColor;
+  }
+  .pill.unused  { color:var(--ok);   background:var(--ok-bg);   border-color:var(--ok-bd); }
+  .pill.partial { color:var(--warn); background:var(--warn-bg); border-color:var(--warn-bd); }
+  .pill.used    { color:var(--ink-muted); background:#ece4d2; border-color:var(--line); }
+  .pill.expired { color:var(--err);  background:var(--err-bg);  border-color:var(--err-bd); }
+
+  /* 次数显示：剩余/总额，等宽对齐 */
+  .uses-cell { font-family:'Menlo','Consolas',monospace; font-size:.9rem; color:var(--ink-soft); white-space:nowrap; }
+  .uses-cell .uc-num { color:var(--ink); font-weight:600; }
+  .uses-cell .uc-zero { color:var(--ink-muted); }
+
+  .copy-btn {
+    background:transparent; border:1px solid var(--line-strong); color:var(--ink-soft);
+    padding:3px 12px; font-size:.82rem; letter-spacing:.05em; cursor:pointer; border-radius:4px;
+    font-family:'STKaiti',serif;
+    transition:all .15s;
+  }
+  .copy-btn:hover { background:var(--accent); color:var(--paper); border-color:var(--accent); }
+
+  /* 消息提示 */
+  .msg { padding:10px 14px; border-radius:5px; margin:10px 0; font-size:.92rem; }
+  .msg.err { background:var(--err-bg); color:var(--err); border:1px solid var(--err-bd); }
+  .msg.ok  { background:var(--ok-bg);  color:var(--ok);  border:1px solid var(--ok-bd); }
+
+  .empty-row td {
+    text-align:center; color:var(--ink-muted); padding:28px 12px !important;
+    font-family:'STKaiti',serif; letter-spacing:.05em;
+  }
+
+  /* 使用 IP 副文本 */
+  .sub { color:var(--ink-muted); font-size:.78rem; display:block; margin-top:2px; }
+
+  /* 响应式：窄屏堆叠 */
+  @media (max-width: 720px) {
+    .admin-wrap { margin:24px auto; padding:0 14px; }
+    .admin-card { padding:20px 18px; }
+    .top-bar h1 { font-size:1.25rem; letter-spacing:.18em; }
+    .row { gap:8px; }
+    .stats-bar { flex-direction:column; align-items:flex-start; gap:6px; }
+    .table-wrap { overflow-x:auto; }
+    table { min-width:780px; }
+  }
+</style>
+</head>
+<body>
+<div class="paper-bg" aria-hidden="true"></div>
+
+<div class="admin-wrap">
+  <div class="top-bar">
+    <h1 data-i18n="admin.title">管　理　員　控　制　台</h1>
+    <div class="top-actions">
+      <span class="lang-switch" role="group" aria-label="Language">
+        <a data-lang-switch="zh-TW" title="繁體中文">繁</a><a data-lang-switch="zh-CN" title="简体中文">简</a><a data-lang-switch="zh-mod" title="现代汉语">白话</a>
+      </span>
+      <a href="/zhouyi.html" data-i18n="admin.back">← 返回起占</a>
+      <button class="subtle" id="btnLogoutTop" hidden data-i18n="admin.logout">登　出</button>
+    </div>
+  </div>
+
+  <!-- 登录卡片 -->
+  <div class="admin-card" id="loginCard">
+    <h2 data-i18n="admin.login.title">管　理　員　登　錄</h2>
+    <div class="row">
+      <input type="password" id="pwInput" placeholder="管理員密碼" autocomplete="current-password" style="flex:1;min-width:240px;" data-i18n-attr="placeholder:admin.login.placeholder" />
+      <button id="btnLogin" data-i18n="admin.login.btn">登　錄</button>
+    </div>
+    <div id="loginMsg"></div>
+  </div>
+
+  <!-- 控制台 -->
+  <div class="admin-card" id="panel" hidden>
+    <h2 data-i18n="admin.codes.title">訪　問　碼　管　理</h2>
+    <div class="hint" data-i18n="admin.codes.hint">每碼自簽發起一年內有效，可使用次數由「次數」設定（默認 1 次）。互參占（周易 + 六壬 + 奇門）算一次消耗。</div>
+
+    <!-- 生成 -->
+    <div class="section">
+      <div class="section-title" data-i18n="admin.section.gen">生　成　新　碼</div>
+      <div class="row">
+        <label class="field"><span data-i18n="admin.field.count">數量</span>
+          <input type="number" id="genCount" min="1" max="50" value="5" style="width:80px;" />
+        </label>
+        <label class="field"><span data-i18n="admin.field.maxuses">次數</span>
+          <input type="number" id="genMaxUses" min="1" max="9999" value="1" style="width:80px;" title="每碼可使用的次數" />
+        </label>
+        <label class="field"><span data-i18n="admin.field.note">備註</span>
+          <input type="text" id="genNote" placeholder="例如：給張三" style="width:240px;" data-i18n-attr="placeholder:admin.field.note.placeholder" />
+        </label>
+        <button id="btnGen" data-i18n="admin.btn.gen">生　成</button>
+        <button class="subtle" id="btnRefresh" data-i18n="admin.btn.refresh">刷　新</button>
+      </div>
+      <div id="opMsg"></div>
+    </div>
+
+    <!-- 筛选 + 操作 -->
+    <div class="section">
+      <div class="section-title" data-i18n="admin.section.filter">查　找　與　操　作</div>
+      <div class="row">
+        <label class="field"><span data-i18n="admin.field.kw">關鍵詞</span>
+          <input type="text" id="filterKw" placeholder="碼 / 備註 / 使用 IP" style="width:220px;" data-i18n-attr="placeholder:admin.field.kw.placeholder" />
+        </label>
+        <label class="field"><span data-i18n="admin.field.status">狀態</span>
+          <select id="filterStatus">
+            <option value="" data-i18n="admin.status.all">全部</option>
+            <option value="未使用" data-i18n="admin.status.unused">僅未使用</option>
+            <option value="使用中" data-i18n="admin.status.partial">僅使用中</option>
+            <option value="已使用" data-i18n="admin.status.used">僅已用盡</option>
+            <option value="已過期" data-i18n="admin.status.expired">僅已過期</option>
+          </select>
+        </label>
+        <span class="spacer"></span>
+        <button class="ghost" id="btnDlAvail" data-i18n="admin.btn.dlavail">下載可用</button>
+        <button class="ghost" id="btnDlFiltered" data-i18n="admin.btn.dlfilt">下載篩選</button>
+        <button class="danger" id="btnDelExpired" data-i18n="admin.btn.delexpired">刪　過　期</button>
+        <button class="danger" id="btnDelUsed" data-i18n="admin.btn.delused">刪　用　盡</button>
+      </div>
+    </div>
+
+    <!-- 统计 + 表格 -->
+    <div class="section">
+      <div class="stats-bar" id="statsBar">
+        <span class="stat"><b id="stTotal">0</b><span data-i18n="admin.stats.total">共計</span></span>
+        <span class="sep">·</span>
+        <span class="stat"><b id="stAvail">0</b><span data-i18n="admin.stats.avail">可用</span></span>
+        <span class="sep">·</span>
+        <span class="stat"><b id="stPartial">0</b><span data-i18n="admin.stats.partial">使用中</span></span>
+        <span class="sep">·</span>
+        <span class="stat"><b id="stUsed">0</b><span data-i18n="admin.stats.used">已用盡</span></span>
+        <span class="sep">·</span>
+        <span class="stat"><b id="stExpired">0</b><span data-i18n="admin.stats.expired">已過期</span></span>
+        <span class="spacer"></span>
+        <span class="stat" id="stShown">當前顯示 0 個</span>
+      </div>
+
+      <div class="table-wrap">
+        <table id="codesTable">
+          <thead>
+            <tr>
+              <th data-i18n="admin.col.code">訪問碼</th>
+              <th data-i18n="admin.col.status">狀態</th>
+              <th data-i18n="admin.col.uses">次數</th>
+              <th data-i18n="admin.col.created">創建時間</th>
+              <th data-i18n="admin.col.expires">過期時間</th>
+              <th data-i18n="admin.col.lastused">最後使用</th>
+              <th data-i18n="admin.col.note">備註</th>
+              <th data-i18n="admin.col.action">操作</th>
+            </tr>
+          </thead>
+          <tbody id="codesBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+
+function showMsg(elId, text, kind) {
+  const el = $(elId);
+  el.innerHTML = `<div class="msg ${kind}">${text}</div>`;
+  if (kind === 'ok') setTimeout(() => { el.innerHTML = ''; }, 2500);
+}
+
+function setLoggedIn(yes) {
+  $('loginCard').hidden = yes;
+  $('panel').hidden = !yes;
+  $('btnLogoutTop').hidden = !yes;
+}
+
+async function doLogin() {
+  const pw = $('pwInput').value;
+  if (!pw) { showMsg('loginMsg', '請輸入密碼', 'err'); return; }
+  try {
+    const res = await fetch('/api/admin/login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ password: pw })
+    });
+    const data = await res.json();
+    if (!res.ok) { showMsg('loginMsg', data.error || '登錄失敗', 'err'); return; }
+    setLoggedIn(true);
+    await refreshList();
+  } catch (e) {
+    showMsg('loginMsg', '網絡錯誤：' + e.message, 'err');
+  }
+}
+
+async function doGenerate() {
+  const count = parseInt($('genCount').value || '1', 10);
+  const maxUses = parseInt($('genMaxUses').value || '1', 10);
+  const note = $('genNote').value.trim();
+  try {
+    const res = await fetch('/api/admin/codes', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ count, maxUses, note })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      if (res.status === 401) { reLogin(); return; }
+      showMsg('opMsg', data.error || '生成失敗', 'err'); return;
+    }
+    const usesLabel = maxUses > 1 ? `（每碼 ${maxUses} 次）` : '';
+    showMsg('opMsg', `已生成 ${data.length} 個訪問碼${usesLabel}`, 'ok');
+    await refreshList();
+  } catch (e) {
+    showMsg('opMsg', '網絡錯誤：' + e.message, 'err');
+  }
+}
+
+let allCodes = [];
+
+async function refreshList() {
+  try {
+    const res = await fetch('/api/admin/codes');
+    if (res.status === 401) { reLogin(); return; }
+    const list = await res.json();
+    // 排序：可用 / 使用中 在前，已用尽 / 已过期 在后；同状态按创建时间倒序
+    const stOrder = s => s === '未使用' ? 0 : s === '使用中' ? 1 : s === '已過期' ? 2 : 3;
+    // 后端返回的状态使用简体「过」字，这里统一为繁体显示
+    list.forEach(c => { if (c.status === '已过期') c.status = '已過期'; });
+    list.sort((a, b) => {
+      const da = stOrder(a.status), db = stOrder(b.status);
+      if (da !== db) return da - db;
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+    allCodes = list;
+    renderTable();
+  } catch (e) {
+    showMsg('opMsg', '加載失敗：' + e.message, 'err');
+  }
+}
+
+function applyFilter(list) {
+  const kw = $('filterKw').value.trim().toUpperCase();
+  const st = $('filterStatus').value;
+  return list.filter(c => {
+    if (st && c.status !== st) return false;
+    if (kw) {
+      const hay = [c.code, c.note || '', c.usedBy || ''].join(' ').toUpperCase();
+      if (hay.indexOf(kw) < 0) return false;
+    }
+    return true;
+  });
+}
+
+// 兼容老数据：后端无 effectiveMaxUses 字段时本地推导
+function effMax(c) {
+  if (typeof c.effectiveMaxUses === 'number' && c.effectiveMaxUses > 0) return c.effectiveMaxUses;
+  return c.maxUses && c.maxUses > 0 ? c.maxUses : 1;
+}
+function remaining(c) {
+  if (typeof c.remainingUses === 'number') return c.remainingUses;
+  return Math.max(0, effMax(c) - (c.usedCount || 0));
+}
+
+function renderTable() {
+  const filtered = applyFilter(allCodes);
+  const tbody = $('codesBody');
+  tbody.innerHTML = '';
+
+  const total = allCodes.length;
+  const avail = allCodes.filter(c => c.status === '未使用').length;
+  const partial = allCodes.filter(c => c.status === '使用中').length;
+  const used = allCodes.filter(c => c.status === '已使用').length;
+  const expired = allCodes.filter(c => c.status === '已過期').length;
+  $('stTotal').textContent = total;
+  $('stAvail').textContent = avail;
+  $('stPartial').textContent = partial;
+  $('stUsed').textContent = used;
+  $('stExpired').textContent = expired;
+  const tr = (k, f) => (window.I18n && window.I18n.t) ? window.I18n.t(k, f) : f;
+  const lang = (window.I18n && window.I18n.getLang) ? window.I18n.getLang() : 'zh-TW';
+  if (lang === 'en') {
+    $('stShown').textContent = `${tr('admin.stats.shown.prefix', 'Showing')} ${filtered.length}`;
+  } else {
+    $('stShown').textContent = (window.I18n && window.I18n.tr)
+      ? window.I18n.tr(`當前顯示 ${filtered.length} 個`)
+      : `當前顯示 ${filtered.length} 個`;
+  }
+
+  if (filtered.length === 0) {
+    const empty = allCodes.length === 0 ? '尚無訪問碼，點擊「生成」開始' : '無匹配的訪問碼';
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="8">${empty}</td></tr>`;
+    return;
+  }
+  const pillCls = { '未使用': 'unused', '使用中': 'partial', '已使用': 'used', '已過期': 'expired' };
+  filtered.forEach(c => {
+    const tr = document.createElement('tr');
+    const cls = pillCls[c.status] || 'used';
+    const max = effMax(c), rem = remaining(c);
+    const remCls = rem === 0 ? 'uc-zero' : 'uc-num';
+    const usesHtml = `<span class="${remCls}">${rem}</span> / ${max}`;
+    tr.innerHTML = `
+      <td class="code-cell">${c.code}</td>
+      <td><span class="pill ${cls}">${c.status}</span></td>
+      <td class="uses-cell">${usesHtml}</td>
+      <td>${fmt(c.createdAt)}</td>
+      <td>${fmt(c.expiresAt)}</td>
+      <td>${c.usedAt ? fmt(c.usedAt) + (c.usedBy ? '<span class="sub">' + escapeHtml(c.usedBy) + '</span>' : '') : '—'}</td>
+      <td>${escapeHtml(c.note || '')}</td>
+      <td><button class="copy-btn" data-code="${c.code}">複　製</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll('.copy-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      const code = b.dataset.code;
+      navigator.clipboard.writeText(code).then(() => {
+        const old = b.textContent;
+        b.textContent = '已複製';
+        setTimeout(() => { b.textContent = old; }, 1200);
+      });
+    });
+  });
+}
+
+function csvEscape(v) {
+  if (v == null) return '';
+  const s = String(v);
+  if (/[",\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+  return s;
+}
+
+function downloadCSV(rows, filename) {
+  if (rows.length === 0) {
+    showMsg('opMsg', '沒有可導出的訪問碼', 'err');
+    return;
+  }
+  const header = ['code', 'status', 'remaining', 'maxUses', 'usedCount', 'createdAt', 'expiresAt', 'usedAt', 'usedBy', 'note'];
+  const lines = [header.join(',')];
+  rows.forEach(c => {
+    lines.push([
+      c.code, c.status, remaining(c), effMax(c), c.usedCount || 0,
+      c.createdAt || '', c.expiresAt || '',
+      c.usedAt || '', c.usedBy || '', c.note || '',
+    ].map(csvEscape).join(','));
+  });
+  // 加 UTF-8 BOM，防止 Excel 打开乱码
+  const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  showMsg('opMsg', `已下載 ${rows.length} 個訪問碼`, 'ok');
+}
+
+function tsForFile() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}`;
+}
+
+function reLogin() {
+  setLoggedIn(false);
+  showMsg('loginMsg', '會話已過期，請重新登錄', 'err');
+}
+
+async function doLogout() {
+  if (!confirm('確定要登出管理員會話嗎？')) return;
+  try {
+    await fetch('/api/admin/logout', { method: 'POST' });
+  } catch (e) { /* 即使请求失败，本地也清掉态 */ }
+  setLoggedIn(false);
+  $('pwInput').value = '';
+  showMsg('loginMsg', '已登出', 'ok');
+}
+
+function fmt(s) {
+  if (!s) return '';
+  const d = new Date(s);
+  if (isNaN(d)) return s;
+  const pad = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+$('btnLogin').addEventListener('click', doLogin);
+$('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+$('btnGen').addEventListener('click', doGenerate);
+$('btnRefresh').addEventListener('click', refreshList);
+$('btnLogoutTop').addEventListener('click', doLogout);
+$('filterKw').addEventListener('input', renderTable);
+$('filterStatus').addEventListener('change', renderTable);
+$('btnDlAvail').addEventListener('click', () => {
+  downloadCSV(allCodes.filter(c => c.status === '未使用' || c.status === '使用中'), `codes-available-${tsForFile()}.csv`);
+});
+$('btnDlFiltered').addEventListener('click', () => {
+  downloadCSV(applyFilter(allCodes), `codes-filtered-${tsForFile()}.csv`);
+});
+
+async function doDelete(scope, label) {
+  const targetCount = scope === 'used'
+    ? allCodes.filter(c => c.status === '已使用').length
+    : allCodes.filter(c => c.status === '已過期').length;
+  if (targetCount === 0) {
+    showMsg('opMsg', `當前無${label}的訪問碼`, 'err');
+    return;
+  }
+  if (!confirm(`確定要刪除 ${targetCount} 個${label}訪問碼嗎？此操作不可恢復。`)) return;
+  try {
+    const res = await fetch('/api/admin/codes', {
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ scope })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      if (res.status === 401) { reLogin(); return; }
+      showMsg('opMsg', data.error || '刪除失敗', 'err'); return;
+    }
+    showMsg('opMsg', `已刪除 ${data.deleted} 個訪問碼`, 'ok');
+    await refreshList();
+  } catch (e) {
+    showMsg('opMsg', '網絡錯誤：' + e.message, 'err');
+  }
+}
+$('btnDelExpired').addEventListener('click', () => doDelete('expired', '已過期'));
+$('btnDelUsed').addEventListener('click', () => doDelete('used', '已用盡'));
+
+// 进页面时尝试加载——若 cookie 已存在，会直接显示
+(async () => {
+  const res = await fetch('/api/admin/codes');
+  if (res.ok) {
+    setLoggedIn(true);
+    await refreshList();
+  }
+})();
+</script>
+</body>
+</html>

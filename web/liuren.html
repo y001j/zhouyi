@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title data-i18n="liuren.title">大六壬 · 起課與斷課</title>
+<link rel="stylesheet" href="/style.css" />
+<script src="/i18n-en.js?v=5"></script>
+<script src="/i18n.js?v=5"></script>
+</head>
+<body>
+<div class="paper-bg" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="vert-motto left" data-i18n="liuren.motto.left">月將加時　四課三傳</div>
+    <div class="title-block">
+      <div class="seal">壬</div>
+      <h1 data-i18n="liuren.header.title">大　六　壬</h1>
+      <p class="subtitle" data-i18n="liuren.subtitle">天地盤　十二天將　斷占之法</p>
+    </div>
+    <div class="vert-motto right" data-i18n="liuren.motto.right">神藏殺沒　課體天機</div>
+  </div>
+</header>
+
+<nav class="sub-nav">
+  <a href="/" data-i18n="nav.home">卜筮明心</a>
+  <span class="sep">｜</span>
+  <a href="/zhouyi.html" data-i18n="nav.zhouyi">周易筮占</a>
+  <span class="sep">｜</span>
+  <span class="here" data-i18n="nav.liuren">大六壬起課</span>
+  <span class="sep">｜</span>
+  <a href="/qimen.html" data-i18n="nav.qimen">奇門遁甲</a>
+  <span class="sep">｜</span>
+  <a href="/huican.html" data-i18n="nav.huican">三式互參</a>
+  <span class="sep">｜</span>
+  <a href="/journal.html" data-i18n="nav.journal">筮　錄</a>
+  <span class="lang-switch" role="group" aria-label="Language">
+    <a data-lang-switch="zh-TW" title="繁體中文">繁</a><a data-lang-switch="zh-CN" title="简体中文">简</a><a data-lang-switch="zh-mod" title="现代汉语">白话</a>
+  </span>
+</nav>
+
+<main class="container">
+  <div class="preface-tip"><span class="pt-line"><span class="pt-ico">✎</span> <span class="pt-strong" data-i18n="zhouyi.preface.tip">占卦有法，不可輕用</span> —— <a href="/" data-i18n="zhouyi.preface.tip.link">請先閱讀「卜筮明心」</a></span><span class="pt-sub" data-i18n="zhouyi.preface.tip.sub">無事不占　·　一事不二占　·　小事不占　·　邪事不占　·　已決不占　·　代占須慎</span></div>
+
+  <!-- 大六壬简介 -->
+  <section class="panel intro-panel">
+    <details>
+      <summary><span data-i18n="liuren.intro.summary">大六壬 · 法門簡介</span><span class="chev">▾</span></summary>
+      <div class="intro-body" data-i18n-keep>
+        <div class="intro-lead">
+          大六壬與太乙、奇門並稱「三式」，以占時地支、月將加臨布成天地盤，配十二天將、四課三傳，斷人事吉凶最為細緻。
+          歷代稱壬為「式之極巧」，長於論人、論事、論情態、論應期。
+          <span class="quote">——「天盤轉而地盤不動，壬盤成而人事現」，六壬所見乃活生生的人、事、情、狀。</span>
+        </div>
+        <div class="intro-grid">
+          <div class="intro-card">
+            <div class="ic-title"><span class="ic-ico">特</span>特點</div>
+            <ul>
+              <li>以天地盤 + 天將 + 四課三傳構成完整「式」</li>
+              <li>三傳（初中末）對應事之「發生—發展—結果」</li>
+              <li>天將加臨顯人事情態，六親顯人際關係</li>
+            </ul>
+          </div>
+          <div class="intro-card">
+            <div class="ic-title"><span class="ic-ico">功</span>功能</div>
+            <ul>
+              <li>細斷「誰、何人、何情態、何應期」之人事細節</li>
+              <li>推斷來人來意、官非訴訟、失物行人</li>
+              <li>應期精確到日、時，擅斷短期吉凶</li>
+            </ul>
+          </div>
+          <div class="intro-card neutral">
+            <div class="ic-title"><span class="ic-ico">優</span>優勢</div>
+            <ul>
+              <li>體系嚴密：九宗十課、畢法賦等各類課式豐富</li>
+              <li>論人事最細，貴人、青龍、勾陳各有所主</li>
+              <li>應期精準，擅判「何時發生、何時結束」</li>
+            </ul>
+          </div>
+          <div class="intro-card weak">
+            <div class="ic-title"><span class="ic-ico">拙</span>不足</div>
+            <ul>
+              <li>體系繁複，入門門檻高，需記大量術語</li>
+              <li>對「宏觀格局、長程走向」之判斷不如周易開闊</li>
+              <li>方位與布局指引不如奇門具體</li>
+            </ul>
+          </div>
+        </div>
+        <div class="intro-tips">
+          <div class="it-title">使用建議</div>
+          <ol>
+            <li>起課以「當下之時」為準，系統自動取當前時辰與月將，無需手動擇時。</li>
+            <li>最宜問：「此人可信否」「此事能成否」「失物何時可尋」「官非何時了結」「親人近況如何」等人事細節問題。</li>
+            <li>解讀先看課名總象（如元首、重審、八專等），再觀三傳動向，末參天將六親。</li>
+            <li>若問「大局走向、哲理取捨」，建議用周易；若問「何方何時何策」，建議用奇門；人事、應期、斷人看六壬為最宜。</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- 起课 -->
+  <section class="panel" id="divinePanel">
+    <div class="panel-title"><span class="ord">壹</span><span class="name">起　課</span></div>
+
+    <div class="field-row">
+      <div class="field wide">
+        <label for="question" data-i18n="form.question.label">所問之事（可留空）</label>
+        <textarea id="question" placeholder="凝神默念所問之事……" data-i18n-attr="placeholder:form.question.placeholder"></textarea>
+      </div>
+      <div class="field">
+        <label for="qtype" data-i18n="form.qtype.label">問題類型</label>
+        <select id="qtype">
+          <option value="" data-i18n="form.qtype.other">其他 / 不指定</option>
+          <option value="career" data-i18n="form.qtype.career">事業 / 工作</option>
+          <option value="wealth" data-i18n="form.qtype.wealth">財運 / 投資</option>
+          <option value="relation" data-i18n="form.qtype.relation">感情 / 姻緣</option>
+          <option value="health" data-i18n="form.qtype.health">健康 / 身心</option>
+          <option value="decision" data-i18n="form.qtype.decision">抉擇 / 兩難</option>
+          <option value="timing" data-i18n="form.qtype.timing">時運 / 吉凶</option>
+        </select>
+      </div>
+    </div>
+    <div class="querent-prefill" data-i18n="liuren.querent.prefill">
+      ※ 本命、出生年、性別已由「命主」設定自動帶入；點右上角「命主」可隨時修改。
+    </div>
+
+    <div class="action-row">
+      <button id="btnDivine" class="primary" type="button">
+        <span class="btn-main" data-i18n="liuren.btn.divine">起　課</span>
+        <span class="btn-sub" data-i18n="liuren.btn.divine.sub">月將加時</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 盘面 -->
+  <section class="panel" id="resultCard" hidden>
+    <div class="panel-title"><span class="ord">貳</span><span class="name" data-i18n="liuren.section.board">盤　面</span></div>
+    <div id="yinxinSlot"></div>
+
+    <div class="meta-grid" id="metaGrid" data-i18n-keep></div>
+
+    <h3><span class="cn-dash"></span><span data-i18n="liuren.section.tdp">天地盤 · 十二天將</span><span class="cn-dash"></span></h3>
+    <table class="tdpan">
+      <tbody>
+        <tr>
+          <th class="row-label">地盤</th>
+          <td colspan="12" style="padding:0;border:none;">
+            <table style="width:100%;border-collapse:separate;border-spacing:0;">
+              <tr id="diRow"></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <th class="row-label">天盤</th>
+          <td colspan="12" style="padding:0;border:none;">
+            <table style="width:100%;border-collapse:separate;border-spacing:0;">
+              <tr id="tianRow"></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <th class="row-label">天將</th>
+          <td colspan="12" style="padding:0;border:none;">
+            <table style="width:100%;border-collapse:separate;border-spacing:0;">
+              <tr id="tjRow"></tr>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3><span class="cn-dash"></span><span data-i18n="liuren.section.sike">四　課</span><span class="cn-dash"></span></h3>
+    <div class="sike" id="sikeList" data-i18n-keep></div>
+
+    <h3><span class="cn-dash"></span><span data-i18n="liuren.section.sanchuan">三　傳 · 課　體</span><span class="cn-dash"></span></h3>
+    <div class="keti-line" data-i18n-keep>
+      課體：<span class="kt-name" id="ketiName"></span><span id="ketiSummary"></span>
+      <span class="fffa">（發傳法：<span id="fffa"></span>）</span>
+    </div>
+    <table class="sanchuan-table">
+      <thead><tr><th>傳</th><th>天神</th><th>天將</th><th>六親</th><th>空亡</th></tr></thead>
+      <tbody id="sanchuanBody" data-i18n-keep></tbody>
+    </table>
+
+    <h3><span class="cn-dash"></span><span data-i18n="liuren.section.tags">附加課格</span><span class="cn-dash"></span></h3>
+    <div id="tagsBox" class="tag-list" data-i18n-keep></div>
+
+    <h3><span class="cn-dash"></span><span data-i18n="liuren.section.shensha">神煞落位</span><span class="cn-dash"></span></h3>
+    <div id="shenShaBox" class="shensha-grid" data-i18n-keep></div>
+
+    <h3><span class="cn-dash"></span><span data-i18n="liuren.section.taboo">乘臨禁忌</span><span class="cn-dash"></span></h3>
+    <div id="tabooBox" class="taboo-list empty" data-i18n-keep>（本盤無天將乘臨禁忌）</div>
+
+    <h3><span class="cn-dash"></span><span data-i18n="liuren.section.nianming">年　命</span><span class="cn-dash"></span></h3>
+    <div id="nianMingBox" class="nianming-box empty" data-i18n-keep>（未提供本命／行年信息）</div>
+
+    <h3><span class="cn-dash"></span><span data-i18n="liuren.section.bifa">畢法賦 · 本盤命中</span><span class="cn-dash"></span></h3>
+    <div id="biFaBox" class="bifa-list" data-i18n-keep></div>
+    <details class="bifa-details">
+      <summary data-i18n="liuren.bifa.expand">▼ 展開《畢法賦》全文 100 條（知識庫）</summary>
+      <div id="biFaCatalog" class="bifa-catalog" data-i18n-keep></div>
+    </details>
+
+    <h3><span class="cn-dash"></span><span data-i18n="liuren.section.guide">斷課指引</span><span class="cn-dash"></span></h3>
+    <pre id="guideBox" class="guide" data-i18n-keep></pre>
+
+    <h3><span class="cn-dash"></span><span data-i18n="liuren.section.prompt">AI 斷課提示詞</span><span class="cn-dash"></span></h3>
+    <div class="prompt-toolbar">
+      <button id="btnCopy" class="secondary" type="button" data-i18n="liuren.btn.copy">複　製</button>
+      <span class="copy-status" id="copyStatus" data-i18n="liuren.copied">已複製</span>
+    </div>
+    <div id="promptBox" class="prompt-scroll" data-i18n-keep></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-line"></div>
+  <span data-i18n="liuren.footer">天　機　不　露　　占　驗　在　心</span>
+</footer>
+
+<script src="/access.js"></script>
+<script src="/location.js"></script>
+<script src="/ritual.js"></script>
+<script src="/regions.js"></script>
+<script src="/querent.js"></script>
+<script src="/journal.js"></script>
+<script>
+// 强制要求填写命主档案
+document.addEventListener('DOMContentLoaded', () => window.Querent.requireOrPrompt());
+
+async function doDivine() {
+  const q = document.getElementById('question').value.trim();
+  const qt = document.getElementById('qtype').value;
+  const btn = document.getElementById('btnDivine');
+  btn.disabled = true;
+  const tr = (k, f) => (window.I18n && window.I18n.t) ? window.I18n.t(k, f) : f;
+  btn.querySelector('.btn-main').textContent = tr('btn.casting', '起課中…');
+  try {
+    const querent = window.Querent.get();
+    if (!querent) {
+      window.Querent.requireOrPrompt();
+      return;
+    }
+    const benMing = window.Querent.benMing();
+    const birthYear = querent.birthYear;
+    const gender = querent.gender;
+    let res;
+    try {
+      const longitude = await Location.get();
+      const fetchPromise = AccessCode.authedFetch('/api/liuren/divine', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ question: q, questionType: qt, benMing, birthYear, gender, longitude })
+      });
+      res = await Ritual.run({ kind: 'liuren', question: q, fetchPromise });
+    } catch (e) {
+      alert(e.message || tr('msg.cast.failed', '起課失敗'));
+      return;
+    }
+    const data = await res.json();
+    if (!res.ok) { alert(data.error || tr('msg.cast.failed', '起課失敗')); return; }
+    render(data);
+    window.Journal.renderYinXin({
+      kind: 'liuren', data,
+      mountId: 'yinxinSlot',
+      question: q, questionType: qt,
+      headline: data.keTiName || '',
+      ganzhiTime: data.time
+    });
+    document.getElementById('resultCard').scrollIntoView({behavior:'smooth', block:'start'});
+  } finally {
+    btn.disabled = false;
+    btn.querySelector('.btn-main').textContent = tr('liuren.btn.divine', '起　課');
+  }
+}
+
+function render(d) {
+  document.getElementById('resultCard').hidden = false;
+
+  // 元信息
+  const metaItems = [
+    ['時刻', d.time],
+    ['日柱', `${d.dayGan}${d.dayZhi}（六十甲子第 ${d.jiaziIndex}）`],
+    ['占時', d.zhanShi],
+    ['月將', `${d.yueJiang}（${d.qiName} 後，${d.yueJiangAlt}）`],
+    ['晝夜', d.zhouYe],
+    ['旬空', `${d.xunKong[0]}、${d.xunKong[1]}`]
+  ];
+  document.getElementById('metaGrid').innerHTML = metaItems
+    .map(([k,v]) => `<div class="meta-item"><span class="lbl">${k}</span><span class="val">${v}</span></div>`)
+    .join('');
+
+  // 天地盘三行
+  document.getElementById('diRow').innerHTML = d.diPan.map(z => `<td class="di-zhi">${z}</td>`).join('');
+  document.getElementById('tianRow').innerHTML = d.tianPan.map(z => `<td class="tian-zhi">${z}</td>`).join('');
+  document.getElementById('tjRow').innerHTML = d.tianJiangShort
+    .map((s, i) => `<td class="tj" title="${d.tianJiang[i]}">${s}</td>`).join('');
+
+  // 四课（右起）
+  const sike = document.getElementById('sikeList');
+  sike.innerHTML = '';
+  for (let i = 3; i >= 0; i--) {
+    const ke = d.siKe[i];
+    const lower = ke.index === 1 ? `${ke.lower}(${d.dayGan})` : ke.lower;
+    const div = document.createElement('div');
+    div.className = 'ke';
+    div.innerHTML = `
+      <div class="up">${ke.upper}</div>
+      <div class="lo">${lower}</div>
+      <div class="rel">${ke.relation}</div>
+      <div class="idx">第${ke.index}課</div>`;
+    sike.appendChild(div);
+  }
+
+  // 三传
+  const tbody = document.getElementById('sanchuanBody');
+  tbody.innerHTML = d.sanChuan.map(ce => `
+    <tr>
+      <td class="chuan-name">${ce.name}</td>
+      <td class="zhi-cell">${ce.zhi}</td>
+      <td>${ce.tianJiang}</td>
+      <td>${ce.liuQin}</td>
+      <td class="${ce.isKong ? 'kong' : ''}">${ce.isKong ? '空' : '—'}</td>
+    </tr>`).join('');
+
+  document.getElementById('ketiName').textContent = d.keTiName;
+  document.getElementById('ketiSummary').textContent = d.keTiSummary ? ' —— ' + d.keTiSummary : '';
+  document.getElementById('fffa').textContent = d.method;
+
+  // 课格
+  const tagsBox = document.getElementById('tagsBox');
+  if (d.tags && d.tags.length) {
+    tagsBox.innerHTML = d.tags.map(t => `<span class="tag" title="${t.summary || ''}">${t.name}</span>`).join('');
+  } else {
+    tagsBox.innerHTML = '<span class="empty-hint">—</span>';
+  }
+
+  // 神煞
+  const ssBox = document.getElementById('shenShaBox');
+  if (d.shenSha && d.shenSha.length) {
+    ssBox.innerHTML = d.shenSha.map(s =>
+      `<div class="ss"><strong>${s.name}</strong>→<span class="zhi">${s.zhi}</span><span class="desc">· ${s.desc || ''}</span></div>`
+    ).join('');
+  } else {
+    ssBox.innerHTML = '<div class="empty-hint">—</div>';
+  }
+
+  // 乘临禁忌
+  const tbBox = document.getElementById('tabooBox');
+  if (d.taboos && d.taboos.length) {
+    tbBox.classList.remove('empty');
+    tbBox.innerHTML = d.taboos.map(tb =>
+      `<div class="taboo-item"><span class="tb-head"><strong>${tb.tianJiang}</strong> 臨 <span class="zhi">${tb.zhi}</span></span><span class="tb-note">${tb.note}</span></div>`
+    ).join('');
+  } else {
+    tbBox.classList.add('empty');
+    tbBox.textContent = '（本盤無天將乘臨禁忌）';
+  }
+
+  // 年命
+  const nmBox = document.getElementById('nianMingBox');
+  const parts = [];
+  if (d.benMing) {
+    const kg = d.benMing.isKong ? ' · 空' : '';
+    parts.push(`<div>本命 <strong>${d.benMing.zhi}</strong>：乘 ${d.benMing.upper} · ${d.benMing.tianJiang}（${d.benMing.liuQin}）${kg}</div>`);
+    if (d.benMing.ying) parts.push(`<span class="yin">【${d.benMing.ying}】${d.benMing.yingDesc || ''}</span>`);
+  }
+  if (d.xingNian) {
+    const kg = d.xingNian.isKong ? ' · 空' : '';
+    parts.push(`<div>行年 <strong>${d.xingNian.zhi}</strong>：乘 ${d.xingNian.upper} · ${d.xingNian.tianJiang}（${d.xingNian.liuQin}）${kg}</div>`);
+    if (d.xingNian.ying) parts.push(`<span class="yin">【${d.xingNian.ying}】${d.xingNian.yingDesc || ''}</span>`);
+  }
+  if (d.bmxnRel) {
+    parts.push(`<div class="bmxn"><span class="bmxn-tag">本命×行年 · ${d.bmxnRel}</span>${d.bmxnDesc ? '<span class="bmxn-desc">' + d.bmxnDesc + '</span>' : ''}</div>`);
+  }
+  if (parts.length) {
+    nmBox.classList.remove('empty');
+    nmBox.innerHTML = parts.join('');
+  } else {
+    nmBox.classList.add('empty');
+    nmBox.textContent = '（未提供本命／行年信息）';
+  }
+
+  // 毕法赋命中
+  const bfBox = document.getElementById('biFaBox');
+  if (d.biFa && d.biFa.length) {
+    bfBox.innerHTML = d.biFa.map(bf =>
+      `<div class="bifa-item"><strong>第${bf.number} · ${bf.title}</strong>：${bf.text}<span class="note">釋：${bf.note || ''}</span></div>`
+    ).join('');
+  } else {
+    bfBox.innerHTML = '<div class="empty-hint">（本盤無自動命中條目，參見下方全文）</div>';
+  }
+
+  // 毕法赋全文
+  const bfCat = document.getElementById('biFaCatalog');
+  if (d.biFaCatalog && d.biFaCatalog.length) {
+    const hitSet = new Set((d.biFa || []).map(x => x.number));
+    bfCat.innerHTML = d.biFaCatalog.map(bf => {
+      const hit = hitSet.has(bf.number) ? 'hit' : '';
+      return `<div class="catalog-item ${hit}"><strong>第${bf.number} · ${bf.title}</strong><div class="note">${bf.note || ''}</div></div>`;
+    }).join('');
+  }
+
+  document.getElementById('guideBox').textContent = d.guide;
+  document.getElementById('promptBox').textContent = d.prompt;
+}
+
+document.getElementById('btnDivine').addEventListener('click', doDivine);
+document.getElementById('btnCopy').addEventListener('click', () => {
+  const txt = document.getElementById('promptBox').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const s = document.getElementById('copyStatus');
+    s.classList.add('show');
+    setTimeout(() => s.classList.remove('show'), 1500);
+  });
+});
+</script>
+</body>
+</html>

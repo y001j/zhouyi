@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title data-i18n="index.title">卜筮明心 · 占前必讀</title>
+<link rel="stylesheet" href="/style.css" />
+<script src="/i18n-en.js?v=5"></script>
+<script src="/i18n.js?v=5"></script>
+</head>
+<body>
+<div class="paper-bg" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="vert-motto left" data-i18n="index.motto.left">不誠不占　不疑不卜</div>
+    <div class="title-block">
+      <div class="seal">心</div>
+      <h1 data-i18n="index.header.title">卜　筮　明　心</h1>
+      <p class="subtitle" data-i18n="index.subtitle">占　前　必　讀　·　凝神靜氣　心誠則靈　敬而用之</p>
+    </div>
+    <div class="vert-motto right" data-i18n="index.motto.right">易不可戲　慎以行之</div>
+  </div>
+</header>
+
+<nav class="sub-nav">
+  <span class="here" data-i18n="nav.home">卜筮明心</span>
+  <span class="sep">｜</span>
+  <a href="/zhouyi.html" data-i18n="nav.zhouyi">周易筮占</a>
+  <span class="sep">｜</span>
+  <a href="/liuren.html" data-i18n="nav.liuren">大六壬起課</a>
+  <span class="sep">｜</span>
+  <a href="/qimen.html" data-i18n="nav.qimen">奇門遁甲</a>
+  <span class="sep">｜</span>
+  <a href="/huican.html" data-i18n="nav.huican">三式互參</a>
+  <span class="sep">｜</span>
+  <a href="/journal.html" data-i18n="nav.journal">筮　錄</a>
+  <span class="lang-switch" role="group" aria-label="Language">
+    <a data-lang-switch="zh-TW" title="繁體中文">繁</a><a data-lang-switch="zh-CN" title="简体中文">简</a><a data-lang-switch="zh-mod" title="现代汉语">白话</a>
+  </span>
+</nav>
+
+<main class="container">
+
+  <!-- 章节锚点目录 · 浮于侧边 / 移动端折叠 -->
+  <nav class="toc" id="pageToc" aria-label="本頁目錄">
+    <div class="toc-title" data-i18n="index.toc.title">目<br/>錄</div>
+    <ul>
+      <li><a href="#sec-preface" data-target="sec-preface"><span class="toc-ord">序</span><span class="toc-name" data-i18n="index.toc.preface">明　心</span></a></li>
+      <li><a href="#sec-jie" data-target="sec-jie"><span class="toc-ord">壹</span><span class="toc-name" data-i18n="index.toc.cautions">六　戒</span></a></li>
+      <li><a href="#sec-ritual" data-target="sec-ritual"><span class="toc-ord">貳</span><span class="toc-name" data-i18n="index.toc.ritual">儀　軌</span></a></li>
+      <li><a href="#sec-xinfa" data-target="sec-xinfa"><span class="toc-ord">叁</span><span class="toc-name" data-i18n="index.toc.heart">心　法</span></a></li>
+      <li><a href="#sec-disclaimer" data-target="sec-disclaimer"><span class="toc-ord">肆</span><span class="toc-name" data-i18n="index.toc.disclaimer">聲　明</span></a></li>
+      <li><a href="#sec-faq" data-target="sec-faq"><span class="toc-ord">伍</span><span class="toc-name" data-i18n="index.toc.faq">問　答</span></a></li>
+      <li><a href="#sec-enter" data-target="sec-enter"><span class="toc-ord">終</span><span class="toc-name" data-i18n="index.toc.enter">起　占</span></a></li>
+    </ul>
+  </nav>
+
+  <!-- 产品简介 · 可折叠 -->
+  <section class="panel intro-panel">
+    <details open>
+      <summary><span data-i18n="index.intro.summary">本系統 · 簡介與優勢</span><span class="chev">▾</span></summary>
+      <div class="intro-body">
+        <div class="intro-lead" data-i18n="index.intro.lead" data-i18n-html>
+          本系統匯三式於一炉——<strong>周易筮占</strong>、<strong>大六壬起課</strong>、<strong>奇門遁甲時家局</strong>，並支持「三式互參」一問三占、互為印證。
+          項目歷時多年研製，<strong>遍校歷代原典</strong>，反復推演、反復驗證，務求每一步起卦、每一條斷語皆有出處、可考可信。
+          <span class="quote">——「占法明於先賢，斷語覆校於今人」，集占家之大成，便當下之問事。</span>
+        </div>
+        <div class="intro-grid">
+          <div class="intro-card">
+            <div class="ic-title"><span class="ic-ico">典</span><span data-i18n="index.intro.card1.title">典籍考據</span></div>
+            <ul data-i18n="index.intro.card1.list" data-i18n-html>
+              <li>周易：本《周易本義》《易學啟蒙》之考變占法則，六十四卦卦辭、爻辭、彖辭、象辭悉數收錄</li>
+              <li>大六壬：依《六壬大全》《六壬指南》《畢法賦》全本、九宗十課、神煞、課體俱全</li>
+              <li>奇門：依《煙波釣叟歌》《奇門遁甲統宗》，時家拆補起局、九星八門八神、格局自動識別</li>
+            </ul>
+          </div>
+          <div class="intro-card">
+            <div class="ic-title"><span class="ic-ico">校</span><span data-i18n="index.intro.card2.title">校對嚴謹</span></div>
+            <ul data-i18n="index.intro.card2.list" data-i18n-html>
+              <li>干支、節氣、月將、旬空等全自動推算，採真太陽時與精確曆法</li>
+              <li>三式之間共享時刻與時令，互參時三盤同時、同源、可比</li>
+              <li>歷經長期迭代與實占校驗，疑難卦例反覆推敲，務求嚴謹</li>
+            </ul>
+          </div>
+          <div class="intro-card neutral">
+            <div class="ic-title"><span class="ic-ico">優</span><span data-i18n="index.intro.card3.title">三大優勢</span></div>
+            <ul data-i18n="index.intro.card3.list" data-i18n-html>
+              <li><strong>三式同堂</strong>：周易主象義、六壬主人事、奇門主機方，三盤互補無死角</li>
+              <li><strong>類神直指</strong>：六類問題（事業/財運/感情/健康/抉擇/時運）各有用神對位，自動標記</li>
+              <li><strong>AI 解占就緒</strong>：每次起占自動生成結構化提示詞，可直接交予 AI 深度解讀</li>
+            </ul>
+          </div>
+          <div class="intro-card neutral">
+            <div class="ic-title"><span class="ic-ico">用</span><span data-i18n="index.intro.card4.title">適合何人</span></div>
+            <ul data-i18n="index.intro.card4.list" data-i18n-html>
+              <li>易學研習者：欲對照原典印證、複盤、推敲卦例</li>
+              <li>三式愛好者：欲一問三占、交叉印證重大事宜</li>
+              <li>普通求問者：欲在重大抉擇之時，借古法獲一份冷靜的觀照</li>
+            </ul>
+          </div>
+        </div>
+        <div class="intro-tips">
+          <div class="it-title" data-i18n="index.intro.tips.title">系統特色</div>
+          <ol data-i18n="index.intro.tips.list" data-i18n-html>
+            <li><strong>原汁原味</strong>：卦辭、爻辭、課體、格局名相，盡量保留古籍本字本義，不作淺白改寫。</li>
+            <li><strong>結構清晰</strong>：每盤分「起占過程 / 盤面 / 解讀指引 / AI 提示詞」四段呈現，新手老手皆可上手。</li>
+            <li><strong>儀式感</strong>：起卦時保留搖錢、揲蓍、按時起局之儀，凝神靜心，一擲已定。</li>
+            <li><strong>謹守占律</strong>：本系統秉「占卦六戒」——無事不占、一事不二占、小事不占、邪事不占、已決不占、代占須慎，請諸君敬而用之。</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- 开篇 · 卷首语 -->
+  <section class="panel preface-panel" id="sec-preface">
+    <div class="preface-hero">
+      <div class="preface-hero-title" data-i18n="index.preface.title">明　心</div>
+      <div class="preface-hero-sub" data-i18n="index.preface.subtitle">——　讀此一篇，勝占十卦　——</div>
+      <div class="preface-hero-quote" data-i18n="index.preface.quote" data-i18n-html>
+        子曰：「不占而已矣。」<br/>
+        又曰：「善為易者不占。」<br/>
+        <span class="src">——《論語 · 子路》《荀子 · 大略》</span>
+      </div>
+      <div class="preface-lead" data-i18n="index.preface.lead" data-i18n-html>
+        易之為書，本以「通神明之德，類萬物之情」，非為戲占，亦非為代人決斷。<br/>
+        凡有疑難不決，至誠以問，方可得神明所告；若以嬉戲為之，縱卦象煌煌，終不能應。<br/>
+        <strong>敬之則靈，褻之則無。</strong> 卜筮不在筮，而在人心之誠。
+      </div>
+    </div>
+  </section>
+
+  <!-- 第壹 · 六戒 -->
+  <section class="panel" id="sec-jie">
+    <div class="panel-title"><span class="ord">壹</span><span class="name" data-i18n="index.cautions.title">占　卦　六　戒</span></div>
+
+    <div class="jie-grid">
+      <div class="jie-card">
+        <div class="jie-hd">
+          <div class="jie-no">一</div>
+          <div class="jie-main" data-i18n="index.jie1.title">無事不占卦</div>
+        </div>
+        <div class="jie-body">
+          <p data-i18n="index.jie1.p1" data-i18n-html>心中無疑、事無不明，則<strong>不必占</strong>。占卦是求「疑難」之決，非為「預知」一切。</p>
+          <p data-i18n="index.jie1.p2" data-i18n-html>常人以占為遊戲，見人卜而我亦卜，無事生事，徒擾神明。占得之卦，亦只能反映其「無所問」之茫然，何益之有？</p>
+          <p class="jie-hint" data-i18n="index.jie1.p3" data-i18n-html>💡 若心中並無具體困惑，請先靜思自省，讓問題清晰浮現，而後再占。</p>
+        </div>
+      </div>
+
+      <div class="jie-card">
+        <div class="jie-hd">
+          <div class="jie-no">二</div>
+          <div class="jie-main" data-i18n="index.jie2.title">一事不二占</div>
+        </div>
+        <div class="jie-body">
+          <p data-i18n="index.jie2.p1" data-i18n-html>《易》曰：「<strong>初筮告，再三瀆，瀆則不告</strong>。」——首次占得之卦已是神明所示；再三求問，已是不信、是褻瀆，神明不復告矣。</p>
+          <p data-i18n="index.jie2.p2" data-i18n-html>同一事，同一人，同一期間，只占一次。縱卦象不合己意，亦當敬受、深思；若以重占求合意之卦，已失占之本義，其卦亦不足信。</p>
+          <p class="jie-hint" data-i18n="index.jie2.p3" data-i18n-html>💡 若首卦實在不明，可隔日、易其心態再占；或請通者解之，而非連續追問。</p>
+        </div>
+      </div>
+
+      <div class="jie-card">
+        <div class="jie-hd">
+          <div class="jie-no">三</div>
+          <div class="jie-main" data-i18n="index.jie3.title">小事不占卦</div>
+        </div>
+        <div class="jie-body">
+          <p data-i18n="index.jie3.p1" data-i18n-html>瑣事、閒事、口腹之快、無關成敗之事，<strong>不必勞動卦象</strong>。</p>
+          <p data-i18n="index.jie3.p2" data-i18n-html>「今日午飯吃什麼」「買哪件衣服」「下周出不出去玩」——此類小事，當以常識決之，以喜好決之，以輕鬆決之。若凡事必占，則依賴成性，失卻自主判斷之能。</p>
+          <p class="jie-hint" data-i18n="index.jie3.p3" data-i18n-html>💡 占卦當用於「重大抉擇」「久懸不決」「影響深遠」之事，輕重自明，勿動輒用之。</p>
+        </div>
+      </div>
+
+      <div class="jie-card">
+        <div class="jie-hd">
+          <div class="jie-no">四</div>
+          <div class="jie-main" data-i18n="index.jie4.title">邪事不占卦</div>
+        </div>
+        <div class="jie-body">
+          <p data-i18n="index.jie4.p1" data-i18n-html>損人、害人、不倫、不義、違法、違德之事，<strong>不可占</strong>。</p>
+          <p data-i18n="index.jie4.p2" data-i18n-html>易以順天道、合人心為旨。以邪事問卦，是欲借天道之名行己私之惡，縱得吉兆亦凶，縱得凶兆亦執迷——此類事斷不可為，何須占之？</p>
+          <p class="jie-hint" data-i18n="index.jie4.p3" data-i18n-html>💡 凡心有愧、不敢告人者，即是「邪」；當止步，而非求卜。</p>
+        </div>
+      </div>
+
+      <div class="jie-card">
+        <div class="jie-hd">
+          <div class="jie-no">五</div>
+          <div class="jie-main" data-i18n="index.jie5.title">已決不占卦</div>
+        </div>
+        <div class="jie-body">
+          <p data-i18n="index.jie5.p1" data-i18n-html>心中已有定見、只為求個「印證」而占，<strong>不必占</strong>。</p>
+          <p data-i18n="index.jie5.p2" data-i18n-html>此時占得吉卦則欣然，凶卦則疑之，甚至重占——卦象於此已非神明之告，而成自心之鏡。不如直接行之，驗之於事。</p>
+          <p class="jie-hint" data-i18n="index.jie5.p3" data-i18n-html>💡 真正該占之時，是心中懸而未決、進退兩難、左右皆有理之時。</p>
+        </div>
+      </div>
+
+      <div class="jie-card">
+        <div class="jie-hd">
+          <div class="jie-no">六</div>
+          <div class="jie-main" data-i18n="index.jie6.title">代占須慎</div>
+        </div>
+        <div class="jie-body">
+          <p data-i18n="index.jie6.p1" data-i18n-html>為他人占卦，當<strong>得其所託、明其所問</strong>，方可代之。</p>
+          <p data-i18n="index.jie6.p2" data-i18n-html>不可擅自為未託付者占其私事（如暗測他人吉凶、窺人隱情），此亦褻瀆之屬。若他人親託，則以受託者之「年命」為用神，代為凝神而占。</p>
+          <p class="jie-hint" data-i18n="index.jie6.p3" data-i18n-html>💡 代占時，問者誠則占者亦誠；若受託者自己都漫不經心，此占亦無力。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第貳 · 占卜仪轨 -->
+  <section class="panel" id="sec-ritual">
+    <div class="panel-title"><span class="ord">貳</span><span class="name" data-i18n="index.ritual.title">占　卦　儀　軌</span></div>
+
+    <div class="ritual-steps">
+
+      <div class="ritual-step">
+        <div class="rs-mark" data-i18n="index.ritual.mark.before">占 前</div>
+        <div class="rs-title" data-i18n="index.ritual1.title">一 · 淨　身　靜　心</div>
+        <div class="rs-desc">
+          <ul data-i18n="index.ritual1.list" data-i18n-html>
+            <li>時間以<strong>心靜之時</strong>為佳，不急不忙、不飢不飽、不怒不惱。</li>
+            <li>凡大醉、大怒、大悲、大喜之時，心神散亂，不宜占卦。</li>
+            <li>若條件許可，洗手、漱口、整衣，以示「敬」字當頭。</li>
+            <li>擇清靜之處，避開喧囂、電視、閒談，獨坐片刻。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ritual-step">
+        <div class="rs-mark" data-i18n="index.ritual.mark.before">占 前</div>
+        <div class="rs-title" data-i18n="index.ritual2.title">二 · 凝　定　所　問</div>
+        <div class="rs-desc">
+          <ul data-i18n="index.ritual2.list" data-i18n-html>
+            <li>將所問之事化為<strong>一句明確之問</strong>，如「某事可否為之」「某人可信否」「某時當動當靜」。</li>
+            <li>問題不宜過寬（「我今年運勢如何」）、不宜過碎（「明天幾點出門」），當有明確「對象 + 行為 + 判斷」。</li>
+            <li>在心中默念所問，三五遍，令意念清晰、情志專一。</li>
+            <li>確認：此事真有疑？此事值得一占？心中誠否？——若有一「否」，暫緩之。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ritual-step">
+        <div class="rs-mark" data-i18n="index.ritual.mark.during">占 中</div>
+        <div class="rs-title" data-i18n="index.ritual3.title">三 · 起　卦　起　課</div>
+        <div class="rs-desc">
+          <ul data-i18n="index.ritual3.list" data-i18n-html>
+            <li>擇法：周易以銅錢 / 蓍草 / 數字；大六壬以當下時刻自動起課；奇門遁甲以當下時辰自動起局。</li>
+            <li>起卦時<strong>心念不散</strong>——手搖錢、指撥蓍、或按下「起占」鍵之瞬，心中所問之念當仍在。</li>
+            <li>對於自動起盤之法（六壬、奇門、互參），按鍵前默念所問，按鍵後即停，勿多按。</li>
+            <li>起卦之時即「天人相應」之時，<strong>一擲已定，不再反復</strong>。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ritual-step">
+        <div class="rs-mark" data-i18n="index.ritual.mark.during">占 中</div>
+        <div class="rs-title" data-i18n="index.ritual4.title">四 · 觀　象　解　卦</div>
+        <div class="rs-desc">
+          <ul data-i18n="index.ritual4.list" data-i18n-html>
+            <li>先觀<strong>卦名總象</strong>（周易）/ <strong>課名總象</strong>（六壬）/ <strong>值符值使</strong>（奇門）——得其大意。</li>
+            <li>再觀<strong>變爻動點</strong>（周易）/ <strong>三傳走勢</strong>（六壬）/ <strong>命中格局</strong>（奇門）——得其轉折。</li>
+            <li>末觀細節：爻辭象辭、天將六親、三奇六儀。</li>
+            <li>可借系統預生成之 AI 提示詞，請通學之 AI 解之；但最終裁斷仍在己心。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ritual-step">
+        <div class="rs-mark" data-i18n="index.ritual.mark.after">占 後</div>
+        <div class="rs-title" data-i18n="index.ritual5.title">五 · 敬　受　不　執</div>
+        <div class="rs-desc">
+          <ul data-i18n="index.ritual5.list" data-i18n-html>
+            <li>得吉卦：不可因喜而驕、因驕而懈——吉在「能行」，不行則無吉。</li>
+            <li>得凶卦：不可因驚而慌、因慌而亂——凶在「示警」，能避則凶化為吉。</li>
+            <li>得平卦：亦當細思——多為「時未至」「宜守」之象。</li>
+            <li><strong>卦象只是參考，決定仍在自身</strong>。易理之貴，在於啟迪人之深思與擔當，非代人抉擇。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ritual-step">
+        <div class="rs-mark" data-i18n="index.ritual.mark.after">占 後</div>
+        <div class="rs-title" data-i18n="index.ritual6.title">六 · 行　而　驗　之</div>
+        <div class="rs-desc">
+          <ul data-i18n="index.ritual6.list" data-i18n-html>
+            <li>占後當<strong>依象而行</strong>，於時日之後觀其應驗。</li>
+            <li>應驗與否，皆為己之修學：驗則感「天人之微」；不驗則思「己意之蔽」。</li>
+            <li>勿於一事占後又反復重占求驗——此已是瀆，非信。</li>
+            <li>久之，自能體會「易不過是我心之鏡」——至誠以問，卦象自明。</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 第叁 · 心法与禁忌 -->
+  <section class="panel" id="sec-xinfa">
+    <div class="panel-title"><span class="ord">叁</span><span class="name" data-i18n="index.heart.title">心　法　與　禁　忌</span></div>
+
+    <div class="xinfa-row">
+      <div class="xinfa-col xinfa-do">
+        <div class="xinfa-title">宜</div>
+        <ul data-i18n="index.xinfa.do" data-i18n-html>
+          <li><strong>敬</strong>：以對先聖之敬對之，不戲、不慢、不譏。</li>
+          <li><strong>誠</strong>：心中所問，即心中所繫；不誠之問，必得不誠之答。</li>
+          <li><strong>靜</strong>：擇靜處、靜時、靜心而為。</li>
+          <li><strong>專</strong>：一時一問，念不他散。</li>
+          <li><strong>明</strong>：問明、占明、解明；三明而後可從其象。</li>
+          <li><strong>恆</strong>：長期記錄所占所驗，積以為學；非一時之好奇。</li>
+        </ul>
+      </div>
+      <div class="xinfa-col xinfa-dont">
+        <div class="xinfa-title">忌</div>
+        <ul data-i18n="index.xinfa.dont" data-i18n-html>
+          <li><strong>忌戲</strong>：以卦為戲、為玩笑、為談資者，一戲則神散。</li>
+          <li><strong>忌瀆</strong>：反復重占，一事多問，是瀆。</li>
+          <li><strong>忌貪</strong>：貪吉避凶而擇占；吉凶本在己行，非在卦象。</li>
+          <li><strong>忌疑</strong>：既占之後又不信其象，不如不占。</li>
+          <li><strong>忌代</strong>：未經所問者所託，不可代其擅占。</li>
+          <li><strong>忌依</strong>：事事皆占，失卻自主判斷之能。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="xinfa-final">
+      <div class="xf-title" data-i18n="index.heart.final">——　結　語　——</div>
+      <p data-i18n="index.xinfa.final.body" data-i18n-html>
+        《繫辭》曰：「<strong>君子居則觀其象而玩其辭，動則觀其變而玩其占</strong>。」<br/>
+        真正的易學工夫，不在占得幾卦，而在平日之「觀象玩辭」，自省自修，以象養心。<br/>
+        占卦只是<strong>輔助</strong>——當疑難實在難決時，借神明之鑒稍作提點；若能「善為易者不占」，則是真得易之精髓。
+      </p>
+      <p class="xf-sign" data-i18n="index.xinfa.final.sign">——　願　諸　君　慎　用　之　，　敬　用　之　，　誠　用　之　——</p>
+    </div>
+  </section>
+
+  <!-- 第肆 · 免責聲明 -->
+  <section class="panel" id="sec-disclaimer">
+    <div class="panel-title"><span class="ord">肆</span><span class="name" data-i18n="index.disclaimer.title">免　責　聲　明</span></div>
+    <div class="disclaimer">
+      <p data-i18n="index.disc.intro" data-i18n-html>本系統為<strong>傳統文化研習與筮占體驗</strong>之用，所呈卦象、課象、局象及 AI 輔助解讀，僅供使用者個人參考、自省與啟思，<strong>不構成任何形式之專業建議</strong>。</p>
+      <ul data-i18n="index.disc.list" data-i18n-html>
+        <li><strong>非醫療建議</strong>：涉及健康、疾病、用藥、診療之事，請諮詢執業醫師，切勿以卦象代替正規醫療判斷。</li>
+        <li><strong>非法律建議</strong>：涉及訴訟、合同、權益、賠償之事，請諮詢執業律師，卦象不能替代法律意見。</li>
+        <li><strong>非投資建議</strong>：涉及金融、股票、投資、創業之事，市場有風險，決策當基於自身研判與風險承受能力。</li>
+        <li><strong>非命運定論</strong>：易理重在「示警」「啟思」「擇時」，吉凶之終仍在<strong>己身之行</strong>，非卦象所定。</li>
+        <li><strong>用戶自主決策</strong>：使用本系統得出之任何結論，使用者應<strong>自行裁斷、自行承擔相應後果</strong>，本系統與其開發者不對由此引起之任何損失負責。</li>
+        <li><strong>不可用於不當之事</strong>：嚴禁將本系統用於賭博、損人、欺詐、違法違德之事；亦不可用以代未經他人託付而占其私事。</li>
+        <li><strong>數據與隱私</strong>：所輸入之問題、命主資訊（姓名、性別、出生年月日時、出生地、現居地）僅存於本機瀏覽器，不會主動上傳至第三方；其中性別與出生年用於六壬「年命」之推算，姓名、出生地、現居地、月日時辰等僅作起卦時之儀式化記錄與標識，<strong>不參與卦象算法</strong>；若使用 AI 提示詞功能，請自行斟酌所貼資訊之敏感程度。</li>
+      </ul>
+      <p class="disclaimer-final" data-i18n="index.disc.final" data-i18n-html>
+        繼續使用本系統，即表示您已<strong>知悉、理解並同意</strong>上述聲明。<br/>
+        願君以敬慎之心用之，以易理為鑑，以己心為主。
+      </p>
+    </div>
+  </section>
+
+  <!-- 第伍 · 常見問答 -->
+  <section class="panel" id="sec-faq">
+    <div class="panel-title"><span class="ord">伍</span><span class="name" data-i18n="index.faq.title">常　見　問　答</span></div>
+
+    <div class="jie-grid">
+      <div class="jie-card">
+        <div class="jie-hd">
+          <div class="jie-no">問</div>
+          <div class="jie-main" data-i18n="index.faq1.q">如今 AI 智能體已盛行，何須此工具？</div>
+        </div>
+        <div class="jie-body">
+          <p data-i18n="index.faq1.a1" data-i18n-html>智能體能<strong>解卦</strong>，卻不能<strong>起卦</strong>。起卦講究時、地、心、法——干支需依真太陽時，月將需依中氣交節，旬空、貴人、月建俱有定式；AI 直接「想」一個卦象，是無源之水。</p>
+          <p data-i18n="index.faq1.a2" data-i18n-html>本系統的職責，是把<strong>古法起占的每一步</strong>嚴格復現出來：銅錢、揲蓍、時家拆補，皆按原典推算；起得之盤，連同結構化提示詞一併交予 AI，由 AI 來解。<strong>本系統管「起」，AI 管「解」</strong>，二者並非替代，而是分工。</p>
+          <p class="jie-hint" data-i18n="index.faq1.a3" data-i18n-html>💡 若直接讓 AI 「占一卦」，多半得到的是它編的故事；先用本系統起盤，再交 AI 解，方為正途。</p>
+        </div>
+      </div>
+
+      <div class="jie-card">
+        <div class="jie-hd">
+          <div class="jie-no">問</div>
+          <div class="jie-main" data-i18n="index.faq2.q">起卦結果可信嗎？是隨機還是有據？</div>
+        </div>
+        <div class="jie-body">
+          <p data-i18n="index.faq2.a1" data-i18n-html>周易筮占的銅錢、揲蓍法，本就以<strong>偶然</strong>承接「天人相應」之機——古人以此立法，今人不必另尋他途。隨機數生成器在此處<strong>正合古意</strong>，關鍵在於起卦之時心念專一。</p>
+          <p data-i18n="index.faq2.a2" data-i18n-html>大六壬、奇門遁甲則<strong>完全由時刻起盤</strong>，無隨機成分：你按下起占之鍵的那一刻，干支、月將、旬空、值符值使便已唯一確定，與本系統無關，與占者亦無關。</p>
+          <p class="jie-hint" data-i18n="index.faq2.a3" data-i18n-html>💡 「信」不在算法，而在你按下起占鍵時，心中所問是否清明、是否至誠。</p>
+        </div>
+      </div>
+
+      <div class="jie-card">
+        <div class="jie-hd">
+          <div class="jie-no">問</div>
+          <div class="jie-main" data-i18n="index.faq3.q">同一件事，不同盤結果不一樣怎麼辦？</div>
+        </div>
+        <div class="jie-body">
+          <p data-i18n="index.faq3.a1" data-i18n-html>「三式互參」之要義，<strong>正在於此</strong>。三盤本就各有所主：周易主<strong>大方向與義理</strong>，六壬主<strong>人事細節與應期</strong>，奇門主<strong>方位與謀劃</strong>。三盤從不同角度切入，偶有出入屬於正常。</p>
+          <p data-i18n="index.faq3.a2" data-i18n-html>三盤皆吉、皆凶，斷之最易；若有歧義，當看<strong>所問之事重在哪一面</strong>——問是否該做，重周易；問何時能成、誰來幫忙，重六壬；問該往何方、如何布局，重奇門。</p>
+          <p class="jie-hint" data-i18n="index.faq3.a3" data-i18n-html>💡 不要強求三盤一律。歧義之處，往往才是事情真正微妙的地方。</p>
+        </div>
+      </div>
+
+      <div class="jie-card">
+        <div class="jie-hd">
+          <div class="jie-no">問</div>
+          <div class="jie-main" data-i18n="index.faq4.q">我從未學過易，能直接用嗎？</div>
+        </div>
+        <div class="jie-body">
+          <p data-i18n="index.faq4.a1" data-i18n-html>可以。本系統為新手保留了<strong>完整的盤面與爻辭原文</strong>，並自動生成可直接餵給 AI 的提示詞——不懂卦理者，把提示詞貼入任何 AI 對話框，即可獲得通俗講解。</p>
+          <p data-i18n="index.faq4.a2" data-i18n-html>但須知：AI 的解讀<strong>是參考</strong>，不是終審。若要深究、要對應到自身具體處境，仍需自己讀卦辭、想象義；本系統呈現的是<strong>原汁原味的古籍文本</strong>，可邊用邊學。</p>
+          <p class="jie-hint" data-i18n="index.faq4.a3" data-i18n-html>💡 與其追求「立刻看懂」，不如把每次起占當作一次與古人對話的機會。</p>
+        </div>
+      </div>
+
+      <div class="jie-card">
+        <div class="jie-hd">
+          <div class="jie-no">問</div>
+          <div class="jie-main" data-i18n="index.faq5.q">我的問題會被上傳、被記錄嗎？</div>
+        </div>
+        <div class="jie-body">
+          <p data-i18n="index.faq5.a1" data-i18n-html>所輸入之問題、命主資訊（姓名、性別、出生年月日時、出生地、現居地）<strong>僅存於本機瀏覽器</strong>，不主動上傳至第三方。其中僅性別與出生年參與六壬之「年命」推算，餘者作起卦記錄與儀式化標識之用，不入卦象算法。</p>
+          <p data-i18n="index.faq5.a2" data-i18n-html>但若你<strong>主動</strong>把提示詞複製到外部 AI 服務（ChatGPT、Claude、文心一言等），那部分內容便進入了該服務的處理範圍——是否敏感，請<strong>自行斟酌</strong>後再貼。</p>
+          <p class="jie-hint" data-i18n="index.faq5.a3" data-i18n-html>💡 涉及他人姓名、隱私之事，貼入 AI 前可先做匿名化處理（以「某甲」「某乙」代之）。</p>
+        </div>
+      </div>
+
+      <div class="jie-card">
+        <div class="jie-hd">
+          <div class="jie-no">問</div>
+          <div class="jie-main" data-i18n="index.faq6.q">占得凶卦怎麼辦？會不會應驗？</div>
+        </div>
+        <div class="jie-body">
+          <p data-i18n="index.faq6.a1" data-i18n-html>凶卦之要義在<strong>「示警」而非「定論」</strong>。古人言「趨吉避凶」，正是因為凶象示警之後，<strong>人尚有避之之機</strong>——若已不可避，何須示警？</p>
+          <p data-i18n="index.faq6.a2" data-i18n-html>得凶卦，當細察其<strong>因何而凶</strong>：是時不至？是人不和？是方位不利？是己心未誠？對症而行，往往凶可化為平、平可進為吉。<strong>真正可怕的不是凶卦，而是得凶卦後仍盲行</strong>。</p>
+          <p class="jie-hint" data-i18n="index.faq6.a3" data-i18n-html>💡 切勿因得凶卦而連占求吉——那已是「瀆」，神明不復告，自欺而已。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 入门导航 -->
+  <section class="panel preface-nav-panel" id="sec-enter">
+    <div class="panel-title"><span class="ord">終</span><span class="name" data-i18n="index.enter.title">往　起　占　處</span></div>
+    <div class="preface-nav-grid">
+      <a href="/zhouyi.html" class="pn-card">
+        <div class="pn-seal">卜</div>
+        <div class="pn-title" data-i18n="index.enter.zhouyi.title">周易筮占</div>
+        <div class="pn-sub" data-i18n="index.enter.zhouyi.sub">事理象義 · 大方向</div>
+      </a>
+      <a href="/liuren.html" class="pn-card">
+        <div class="pn-seal">課</div>
+        <div class="pn-title" data-i18n="index.enter.liuren.title">大六壬</div>
+        <div class="pn-sub" data-i18n="index.enter.liuren.sub">人事細節 · 應期</div>
+      </a>
+      <a href="/qimen.html" class="pn-card">
+        <div class="pn-seal">奇</div>
+        <div class="pn-title" data-i18n="index.enter.qimen.title">奇門遁甲</div>
+        <div class="pn-sub" data-i18n="index.enter.qimen.sub">方位時機 · 謀事</div>
+      </a>
+      <a href="/huican.html" class="pn-card">
+        <div class="pn-seal">參</div>
+        <div class="pn-title" data-i18n="index.enter.huican.title">三式互參</div>
+        <div class="pn-sub" data-i18n="index.enter.huican.sub">三盤同參 · 互證</div>
+      </a>
+    </div>
+    <div class="ack-row">
+      <button id="ackBtn" class="ack-btn" data-i18n="index.enter.btn">已　閱　·　進　入　起　占</button>
+      <div class="ack-hint" data-i18n="index.enter.hint">點擊上方按鈕，表示您已閱讀並同意上文之免責聲明與占卦戒律。</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 首次访问免责声明模态框 -->
+<div id="disclaimerModal" class="dc-mask" hidden aria-hidden="true">
+  <div class="dc-dialog" role="dialog" aria-modal="true" aria-labelledby="dcTitle">
+    <h2 id="dcTitle" data-i18n="modal.title">免責聲明 · 使用須知</h2>
+    <div class="dc-body">
+      <p data-i18n="modal.intro">歡迎使用本系統。在繼續之前，請仔細閱讀以下條款；點擊「同意並繼續」即表示您已知悉並接受這些條款。</p>
+      <ol>
+        <li>本系統是<strong>傳統文化研習與占卜體驗</strong>工具，所輸出的卦象、課象、局象與 AI 解讀<strong>僅供參考</strong>，不構成任何專業建議。</li>
+        <li><strong>不替代醫療建議</strong>：涉及健康、疾病、用藥、診療的問題，請及時諮詢執業醫師，不要以占卜結果替代正規醫療判斷。</li>
+        <li><strong>不替代法律建議</strong>：涉及訴訟、合同、維權、賠償等問題，請諮詢執業律師。</li>
+        <li><strong>不替代投資建議</strong>：涉及金融、股票、投資、創業的決策應基於自身研究和風險承受能力，本系統不為任何投資結果負責。</li>
+        <li><strong>不構成命運定論</strong>：占卜重在啟發思考、提示風險、輔助決策，最終的選擇和後果仍取決於您自己的行動。</li>
+        <li><strong>用戶自主決策</strong>：您使用本系統得出的任何結論，均應由本人獨立判斷並承擔相應後果，本系統及開發者對由此產生的任何損失不承擔責任。</li>
+        <li><strong>禁止不當用途</strong>：禁止將本系統用於賭博、欺詐、損害他人或違反法律道德的目的；亦不應在未獲他人授權時代為占測其私事。</li>
+        <li data-i18n="modal.t8" data-i18n-html><strong>數據與隱私</strong>：您輸入的問題、命主資訊（姓名、性別、出生年月日時、出生地、現居地）僅存於本機瀏覽器，不會主動上傳至第三方；其中僅性別與出生年參與六壬「年命」推算，姓名、出生地、現居地、月日時辰等<strong>不參與卦象算法</strong>，僅作起卦時的儀式化記錄；若使用 AI 提示詞功能，請自行評估所粘貼信息的敏感程度。</li>
+      </ol>
+      <p class="dc-warn" data-i18n="modal.warn">如您不同意上述任一條款，請立即關閉本頁面，停止使用本系統。</p>
+    </div>
+    <label class="dc-check">
+      <input type="checkbox" id="dcAgree" />
+      <span data-i18n="modal.check">我已仔細閱讀並同意上述免責聲明與使用條款</span>
+    </label>
+    <div class="dc-actions">
+      <button id="dcConfirm" class="dc-btn" disabled data-i18n="modal.confirm">同意並繼續</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-line"></div>
+  <p data-i18n="index.footer">敬　而　用　之　　不　戲　不　瀆</p>
+</footer>
+
+<script>
+// 「進入起占」按钮：先确保命主档案已设，再跳到周易筮占页
+(function(){
+  const btn = document.getElementById('ackBtn');
+  if (btn) {
+    btn.addEventListener('click', function(){
+      window.Querent.requireOrPrompt({
+        onSet: () => { window.location.href = '/zhouyi.html'; }
+      });
+    });
+  }
+
+  // ----- 章节目录：滚动联动高亮 + 平滑滚动 -----
+  (function(){
+    const toc = document.getElementById('pageToc');
+    if (!toc) return;
+    const links = toc.querySelectorAll('a[data-target]');
+    const idMap = {};
+    links.forEach(a => { idMap[a.getAttribute('data-target')] = a; });
+    const sections = Array.from(links)
+      .map(a => document.getElementById(a.getAttribute('data-target')))
+      .filter(Boolean);
+
+    // 平滑滚动（兼容 hash 跳转）
+    links.forEach(a => {
+      a.addEventListener('click', function(e){
+        const id = a.getAttribute('data-target');
+        const el = document.getElementById(id);
+        if (!el) return;
+        e.preventDefault();
+        const top = el.getBoundingClientRect().top + window.pageYOffset - 12;
+        window.scrollTo({ top, behavior: 'smooth' });
+        history.replaceState(null, '', '#' + id);
+      });
+    });
+
+    // 当前章节高亮（IntersectionObserver）
+    function setActive(id){
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('data-target') === id));
+    }
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(entries => {
+        const visible = entries
+          .filter(en => en.isIntersecting)
+          .sort((a,b) => a.target.getBoundingClientRect().top - b.target.getBoundingClientRect().top);
+        if (visible.length) setActive(visible[0].target.id);
+      }, { rootMargin: '-20% 0px -65% 0px', threshold: 0 });
+      sections.forEach(s => io.observe(s));
+    }
+
+    // 移动端折叠态：默认折叠，点击「目錄」标题展开
+    const tocTitle = toc.querySelector('.toc-title');
+    if (tocTitle) {
+      tocTitle.addEventListener('click', function(){
+        toc.classList.toggle('open');
+      });
+      // 移动端点击链接后自动收起
+      links.forEach(a => a.addEventListener('click', () => {
+        if (window.matchMedia('(max-width: 880px)').matches) toc.classList.remove('open');
+      }));
+    }
+  })();
+
+  // ----- 首次访问免责声明模态框 -----
+  function disclaimerAcked() {
+    try { return localStorage.getItem('zhouyi_disclaimer_acked') === '1'; } catch(_) { return false; }
+  }
+  function setDisclaimerAcked() {
+    try { localStorage.setItem('zhouyi_disclaimer_acked', '1'); } catch(_) {}
+  }
+  const modal = document.getElementById('disclaimerModal');
+  const agree = document.getElementById('dcAgree');
+  const confirm = document.getElementById('dcConfirm');
+  if (modal && !disclaimerAcked()) {
+    modal.hidden = false;
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    agree.addEventListener('change', function(){
+      confirm.disabled = !agree.checked;
+    });
+    confirm.addEventListener('click', function(){
+      if (!agree.checked) return;
+      setDisclaimerAcked();
+      modal.hidden = true;
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      // 同意条款后立即引导填写命主信息
+      if (window.Querent) window.Querent.requireOrPrompt();
+    });
+  }
+})();
+</script>
+<script src="/regions.js"></script>
+<script src="/querent.js"></script>
+</body>
+</html>
