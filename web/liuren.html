@@ -223,6 +223,7 @@
 <script src="/access.js"></script>
 <script src="/location.js"></script>
 <script src="/ritual.js"></script>
+<script src="/interpret.js"></script>
 <script src="/regions.js"></script>
 <script src="/querent.js"></script>
 <script src="/journal.js"></script>
@@ -405,6 +406,14 @@ function render(d) {
 
   document.getElementById('guideBox').textContent = d.guide;
   document.getElementById('promptBox').textContent = d.prompt;
+
+  if (window.AIInterpret) {
+    window.AIInterpret.mount({
+      key: 'liuren',
+      afterEl: 'promptBox',
+      getPrompt: () => document.getElementById('promptBox').textContent,
+    });
+  }
 }
 
 document.getElementById('btnDivine').addEventListener('click', doDivine);

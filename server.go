@@ -839,6 +839,76 @@ func handleQimen(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, v)
 }
 
+// interpretRequest 解卦请求：直接送一段已生成好的解卦提示词。
+type interpretRequest struct {
+	Prompt string `json:"prompt"`
+}
+
+// handleInterpret 调用配置好的大模型，对前端传来的解卦提示词作答，
+// 以 SSE 流式逐段推送解读文本。
+// 未配置 API（apiKey 为空）时返回 503，前端可据此降级为「复制提示词」。
+func handleInterpret(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		writeError(w, http.StatusMethodNotAllowed, "请使用 POST")
+		return
+	}
+
+	// 解卦调用 LLM 往往超过服务器默认 30s 的 WriteTimeout，会被中途掐断
+	// （浏览器表现为 ERR_EMPTY_RESPONSE）。这里仅对本 handler 放宽写超时，
+	// 取 llm.timeoutSec + 30s 余量；旧版 Go 不支持时静默忽略，不影响其余端点。
+	if rc := http.NewResponseController(w); rc != nil {
+		extra := time.Duration(LoadConfig().LLM.TimeoutSec+30) * time.Second
+		if extra < 180*time.Second {
+			extra = 180 * time.Second
+		}
+		_ = rc.SetWriteDeadline(time.Now().Add(extra))
+		_ = rc.SetReadDeadline(time.Now().Add(extra))
+	}
+
+	var req interpretRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		writeError(w, http.StatusBadRequest, "请求体解析失败: "+err.Error())
+		return
+	}
+	if strings.TrimSpace(req.Prompt) == "" {
+		writeError(w, http.StatusBadRequest, "prompt 不能为空（请先起盘获取解卦提示词）")
+		return
+	}
+
+	cfg := LoadConfig().LLM
+	if _, usable := cfg.resolved(); !usable {
+		writeError(w, http.StatusServiceUnavailable, "服务端未配置解卦 API，请改用「复制提示词」自行解读")
+		return
+	}
+
+	// 以 SSE 流式把模型增量文本逐段推给前端。
+	// 协议：每段文本发 `event: delta` + `data: {"text":"..."}`；
+	// 出错发 `event: error` + `data: {"error":"..."}`；正常收尾发 `event: done`。
+	w.Header().Set("Content-Type", "text/event-stream; charset=utf-8")
+	w.Header().Set("Cache-Control", "no-cache")
+	w.Header().Set("Connection", "keep-alive")
+	w.Header().Set("X-Accel-Buffering", "no") // 禁用 nginx 等反代的缓冲，保证即时下发
+	w.WriteHeader(http.StatusOK)
+
+	flusher, _ := w.(http.Flusher)
+	sendEvent := func(event string, payload any) {
+		b, _ := json.Marshal(payload)
+		fmt.Fprintf(w, "event: %s\ndata: %s\n\n", event, b)
+		if flusher != nil {
+			flusher.Flush()
+		}
+	}
+
+	err := InterpretStream(r.Context(), cfg, req.Prompt, func(delta string) {
+		sendEvent("delta", map[string]string{"text": delta})
+	})
+	if err != nil {
+		sendEvent("error", map[string]string{"error": "解卦失败：" + err.Error()})
+		return
+	}
+	sendEvent("done", map[string]string{})
+}
+
 func handleQuestionTypes(w http.ResponseWriter, r *http.Request) {
 	type item struct {
 		Value string `json:"value"`
@@ -866,6 +936,9 @@ func runServer(addr string) {
 	mux.HandleFunc("/api/liuren/divine", requireCode(handleLiuRen))
 	mux.HandleFunc("/api/huican/divine", requireCode(handleHuCan))
 	mux.HandleFunc("/api/qimen/divine", requireCode(handleQimen))
+	// 解卦是起卦的延续，不再消费访问码（起卦时已消费一次）；
+	// 端点本身以「服务端是否配置了 LLM」为天然闸门，未配置即 503。
+	mux.HandleFunc("/api/interpret", handleInterpret)
 
 	mux.HandleFunc("/api/admin/login", handleAdminLogin)
 	mux.HandleFunc("/api/admin/logout", handleAdminLogout)

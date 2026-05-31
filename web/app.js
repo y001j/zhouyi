@@ -313,6 +313,15 @@
     $('guide').textContent = data.guide || '';
     $('promptText').value = data.prompt || '';
 
+    // AI 解卦按钮（挂在提示词文本框之后）
+    if (window.AIInterpret) {
+      window.AIInterpret.mount({
+        key: 'zhouyi',
+        afterEl: 'promptText',
+        getPrompt: () => $('promptText').value,
+      });
+    }
+
     // 印心小卡（结果区顶部）
     if (window.Journal && window.Journal.renderYinXin) {
       const head = (data.mainHex ? data.mainHex.name + '卦' : '') +

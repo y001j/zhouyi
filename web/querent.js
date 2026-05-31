@@ -101,28 +101,40 @@
     return tr('querent.tag.label', '命主：') + parts.join('·');
   }
 
-  // ===== 顶栏小标 =====
+  // ===== 右上角固定控件组（命主小标 + 语言切换）=====
+  // 创建一个固定在页面右上角的容器，把页面里的语言切换节点搬进来，
+  // 命主小标放在它左侧。移动 DOM 节点会保留其原有事件绑定，故无需改 i18n.js。
+  function ensureTopRight() {
+    let host = document.getElementById('topRight');
+    if (!host) {
+      host = document.createElement('div');
+      host.id = 'topRight';
+      host.className = 'top-right';
+      document.body.appendChild(host);
+    }
+    // 搬入语言切换（页面各处的 .lang-switch，通常在 nav 内）
+    const lang = document.querySelector('.lang-switch');
+    if (lang && lang.parentElement !== host) {
+      host.appendChild(lang);
+    }
+    return host;
+  }
+
   function ensureTag() {
+    const host = ensureTopRight();
     let tag = document.getElementById('querentTag');
-    if (tag) return tag;
-    const nav = document.querySelector('.sub-nav');
-    if (!nav) return null;
-    const langSwitch = nav.querySelector('.lang-switch');
+    if (tag) {
+      // 命主小标始终排在语言切换左侧
+      if (tag.parentElement !== host) host.insertBefore(tag, host.firstChild);
+      return tag;
+    }
     tag = document.createElement('a');
     tag.id = 'querentTag';
     tag.className = 'querent-tag';
     tag.href = 'javascript:void(0)';
     tag.setAttribute('role', 'button');
     tag.addEventListener('click', () => openEdit());
-    if (langSwitch) {
-      const sep = document.createElement('span');
-      sep.className = 'sep';
-      sep.textContent = '｜';
-      nav.insertBefore(sep, langSwitch);
-      nav.insertBefore(tag, langSwitch);
-    } else {
-      nav.appendChild(tag);
-    }
+    host.insertBefore(tag, host.firstChild); // 命主在左、语言在右
     return tag;
   }
 

@@ -49,22 +49,32 @@
 
   function fmt(n) { return (Math.round(n * 10) / 10).toFixed(1); }
 
+  // 右上角固定控件组容器（与 querent.js 共用同一个 #topRight）。
+  // 谁先加载谁创建；后者复用。避免经度/命主/语言各自 fixed 而重叠。
+  function ensureTopRight() {
+    let host = document.getElementById('topRight');
+    if (host) return host;
+    if (!document.body) return null;
+    host = document.createElement('div');
+    host.id = 'topRight';
+    host.className = 'top-right';
+    document.body.appendChild(host);
+    return host;
+  }
+
   function ensureBadge() {
-    if (badge) return badge;
-    badge = document.createElement('div');
-    badge.id = 'locBadge';
-    badge.style.cssText = [
-      'position:fixed','top:12px','right:12px','z-index:9999',
-      'padding:5px 12px','font:12px/1.4 "STKaiti",serif','letter-spacing:.05em',
-      'background:rgba(253,246,227,.92)','color:#5a4a2a',
-      'border:1px solid #c9a96e','border-radius:14px',
-      'cursor:pointer','user-select:none',
-      'box-shadow:0 1px 3px rgba(90,60,20,.08)'
-    ].join(';');
-    badge.title = (window.I18n && window.I18n.t) ? window.I18n.t('loc.title', '點擊修改起卦地經度（用於真太陽時校正）') : '點擊修改起卦地經度（用於真太陽時校正）';
-    badge.addEventListener('click', promptManual);
-    if (document.body) document.body.appendChild(badge);
-    else document.addEventListener('DOMContentLoaded', () => document.body.appendChild(badge));
+    if (badge && badge.isConnected) return badge;
+    const host = ensureTopRight();
+    if (!host) return badge; // body 尚未就绪，稍后由 get() 再次触发
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.id = 'locBadge';
+      badge.className = 'lon-badge';
+      badge.title = (window.I18n && window.I18n.t) ? window.I18n.t('loc.title', '點擊修改起卦地經度（用於真太陽時校正）') : '點擊修改起卦地經度（用於真太陽時校正）';
+      badge.addEventListener('click', promptManual);
+    }
+    // 经度排在容器最前（命主、语言之前），三者横向并排不重叠
+    if (badge.parentElement !== host) host.insertBefore(badge, host.firstChild);
     return badge;
   }
 

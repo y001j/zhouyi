@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"context"
 	"fmt"
 	"os"
 	"strconv"
@@ -263,9 +264,46 @@ func saveAndOfferPrompt(result DivinationResult, question string, reader *bufio.
 	ans = strings.TrimSpace(strings.ToLower(ans))
 	if ans == "" || ans == "y" || ans == "yes" {
 		PrintAIPrompt(result, question)
+		offerLLMInterpret(reader, GenerateAIPrompt(result, question))
 	} else {
 		fmt.Println("  （可随时输入 prompt 命令重新显示提示词）")
 	}
+}
+
+// offerLLMInterpret 在已生成提示词后，询问并调用大模型 API 直接给出解读。
+// 仅当 config.json 的 llm 段已配置（apiKey 非空）时才提示；否则给一句温和的引导。
+// prompt 为对应术数已生成好的解卦提示词文本。
+func offerLLMInterpret(reader *bufio.Reader, prompt string) {
+	if strings.TrimSpace(prompt) == "" {
+		return
+	}
+	cfg := LoadConfig().LLM
+	_, usable := cfg.resolved()
+	if !usable {
+		fmt.Println("\n  （提示：在 config.json 的 llm 段填入 apiKey 并设 enabled=true，即可让程序直接调用 AI 解卦）")
+		return
+	}
+
+	fmt.Print("\n  是否直接调用 AI 解卦？(y/n，默认 y): ")
+	ans, _ := reader.ReadString('\n')
+	ans = strings.TrimSpace(strings.ToLower(ans))
+	if ans != "" && ans != "y" && ans != "yes" {
+		return
+	}
+
+	fmt.Println("\n  正在请大模型解卦，请稍候……")
+	text, err := Interpret(context.Background(), cfg, prompt)
+	if err != nil {
+		fmt.Printf("  解卦失败：%v\n", err)
+		fmt.Println("  （可复制上面的提示词到任意 AI 自行解读）")
+		return
+	}
+	fmt.Println("\n╔═══════════════════════════════════════════════════════════╗")
+	fmt.Println("║                    AI 解卦结果                              ║")
+	fmt.Println("╚═══════════════════════════════════════════════════════════╝")
+	fmt.Println()
+	fmt.Println(text)
+	fmt.Println("═══════════════════════════════════════════════════════════")
 }
 
 func printDivinationProcess(r DivinationResult, method string) {
@@ -407,6 +445,7 @@ func doLiuRenDivination(reader *bufio.Reader) {
 		fmt.Println()
 		fmt.Println(prompt)
 		fmt.Println("═══════════════════════════════════════════════════════════")
+		offerLLMInterpret(reader, prompt)
 	}
 }
 
@@ -443,5 +482,6 @@ func doHuCanDivination(reader *bufio.Reader) {
 		fmt.Println()
 		fmt.Println(prompt)
 		fmt.Println("═══════════════════════════════════════════════════════════")
+		offerLLMInterpret(reader, prompt)
 	}
 }

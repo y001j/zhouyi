@@ -68,17 +68,12 @@ const sessionTTL = 12 * time.Hour
 var store *authStore
 
 // readPasswordFromConfig 从 ./config.json 或 ./admin.conf 读取密码
-// config.json 格式：{"adminPassword": "..."}
+// config.json 由统一的 LoadConfig 解析（含 adminPassword 与 llm 段）
 // admin.conf 格式：纯文本（一行），整行作为密码
 func readPasswordFromConfig() string {
-	// 优先 JSON 配置
-	if b, err := os.ReadFile("./config.json"); err == nil {
-		var cfg struct {
-			AdminPassword string `json:"adminPassword"`
-		}
-		if json.Unmarshal(b, &cfg) == nil && cfg.AdminPassword != "" {
-			return cfg.AdminPassword
-		}
+	// 优先 JSON 配置（复用统一加载，避免重复读盘/解析）
+	if pw := LoadConfig().AdminPassword; pw != "" {
+		return pw
 	}
 	// 其次纯文本
 	if b, err := os.ReadFile("./admin.conf"); err == nil {
