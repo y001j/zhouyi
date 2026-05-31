@@ -58,7 +58,7 @@ func GenerateAIPrompt(pan *Pan, question, focusGuide, qType string) string {
 	// ======= 值符值使 =======
 	b.WriteString("## 值符 · 值使\n")
 	b.WriteString(fmt.Sprintf("- 值符星：**%s** 落 **%s**（跟时干，主事态之机轴）\n", pan.ZhiFuStar, pan.ZhiFuPalace))
-	b.WriteString(fmt.Sprintf("- 值使门：**%s** 落 **%s**（跟时支，主人事之动向）\n\n", pan.ZhiShiGate, pan.ZhiShiPalace))
+	b.WriteString(fmt.Sprintf("- 值使门：**%s** 落 **%s**（随时干旬步顺逆遁宫，主事之经过与动向）\n\n", pan.ZhiShiGate, pan.ZhiShiPalace))
 
 	// ======= 九宫盘 =======
 	b.WriteString("## 九宫盘\n")

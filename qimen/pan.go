@@ -79,7 +79,7 @@ func BuildPanWithContext(ctx *Context) *Pan {
 	gods := LayGods(ctx.Dun, zfPalFei)
 
 	// 6. 值使门与落宫
-	zsGate, zsPalFei := LocateZhiShi(earth, ctx.Dungan, ctx.HourZhi)
+	zsGate, zsPalFei := LocateZhiShi(earth, ctx.Dungan, ctx.Xunshou, ctx.HourGZ, ctx.Dun)
 	doors := LayDoors(zsGate, zsPalFei, ctx.Dun)
 
 	// 7. 旬空 & 驿马
@@ -142,8 +142,9 @@ func BuildPanWithContext(ctx *Context) *Pan {
 		if earth[i] != "" && IsStemInMu(earth[i], i) {
 			cell.IsEarthStemMu = true
 		}
-		// 六仪击刑位
-		if i == jiXingPal {
+		// 六仪击刑：须旬首六仪【实际落于】其刑位才成立（与 detectLiuYiJiXing 口径一致）。
+		// 仅"该宫恰为理论刑位"还不够——旬首干须真落此宫。
+		if i == jiXingPal && earth[i] == ctx.Dungan {
 			cell.IsJiXing = true
 		}
 		cells[i] = cell

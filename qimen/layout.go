@@ -192,21 +192,58 @@ func LayGods(dun string, zhiFuPalaceFei int) [9]string {
 
 // LocateZhiShi 返回 (值使门, 值使落宫飞星序索引)。
 //
-// 算法（《奇门宝鉴·直使加时法》）：
+// 算法（转盘法／拆补法，《烟波钓叟歌》"值使顺逆遁宫去"）：
 //  1. 值使门名 = 遁干（旬首六仪）在地盘的宫所对应的门。
 //     若遁干落中5，寄坤2（死门）。
-//  2. 值使落宫 = 时支在地盘（固定 12 地支 → 宫）所对应的宫。
-func LocateZhiShi(earthStems [9]string, dungan, hourZhi string) (gate string, palaceFei int) {
-	dunPalace := findStemPalace(earthStems, dungan)
-	if dunPalace == 4 {
-		// 寄坤2
+//  2. 值使落宫 = 自「值使本宫」（即旬首遁干所落之宫；落中5者寄坤2）起，
+//     沿转盘链 [坎1,艮8,震3,巽4,离9,坤2,兑7,乾6] 前进「时辰在本旬内的序数 n」步，
+//     阳遁顺行、阴遁逆行（旬首 n=0 即伏吟，与值符同宫）。
+//
+// 注意：值使与值符在转盘法中连动同转，故二者必同为伏吟/反吟。旧实现误用
+// 「时支地盘宫」定落宫，仅在甲子时等旬首伏吟的偶合点与本法一致，已修正。
+//
+// 入参 xunshou 为旬首（如 "甲申"），hourGZ 为时柱干支（如 "甲申"），
+// 二者用于查得时辰在本旬内的序数 n。
+func LocateZhiShi(earthStems [9]string, dungan, xunshou, hourGZ, dun string) (gate string, palaceFei int) {
+	// 值使本宫 = 旬首遁干在地盘的宫；落中5寄坤2（飞星序索引 1）。
+	benGongFei := findStemPalace(earthStems, dungan)
+	if benGongFei == 4 {
+		benGongFei = 1 // 寄坤2
 		gate = PalaceToGate[1]
 	} else {
-		gate = PalaceToGate[dunPalace]
+		gate = PalaceToGate[benGongFei]
 	}
 
-	palaceFei = ZhiToPalaceFei[hourZhi]
+	// 时辰在本旬内的序数 n（旬首 = 0）。
+	n := xunIndexOf(xunshou, hourGZ)
+	if n < 0 {
+		n = 0 // 异常兜底：按伏吟（旬首）处理，避免落到无意义的宫
+	}
+
+	// 沿转盘链走 n 步，阳遁顺、阴遁逆。
+	step := 1
+	if dun == "阴遁" {
+		step = -1
+	}
+	startZhuan := FeiToZhuan[benGongFei+1] // 飞星索引→宫号→转盘链下标
+	destZhuan := ((startZhuan+n*step)%8 + 8) % 8
+	palaceFei = ZhuanToFei[destZhuan] - 1
 	return
+}
+
+// xunIndexOf 返回时柱干支在其所属旬内的序数（旬首 = 0，旬末 = 9）。
+// 找不到返回 -1。
+func xunIndexOf(xunshou, hourGZ string) int {
+	members, ok := XunshouToGanzhi[xunshou]
+	if !ok {
+		return -1
+	}
+	for i, gz := range members {
+		if gz == hourGZ {
+			return i
+		}
+	}
+	return -1
 }
 
 // ======================== 7. 布八门 ========================
