@@ -1,46 +1,18 @@
 #!/usr/bin/env bash
-# 一键产出「周易三式占卜」独立可分发 skill 包。
-# 流程：交叉编译五平台二进制 → 放入 skill/bin → 打成 zip。
-# 产物：dist/zhouyi-divination-skill.zip，解压即用，对方无需装 Go。
+# ⚠️ 本脚本已停用：占卜 skill 已抽取为独立发行仓库。
 #
-# 用法：bash build_skill_dist.sh
+# skill（SKILL.md / README / 脚本）现位于独立仓库：
+#     https://github.com/y001j/zhouyi-divination-skill
+# 本仓库只保留 Go 源码，作为该 skill 二进制的「上游」。
+#
+# 发布新版二进制的方法（在 skill 仓库里跑，它会回到本源码目录交叉编译）：
+#     cd ../zhouyi-divination-skill
+#     git tag vX.Y.Z && git push --tags                # 先打版本 tag
+#     bash scripts/release.sh --src /path/to/zhouyi    # 编译五平台 + 打离线 zip + 传 Release
+#
+# 用户侧无需本脚本：skill 仓库的 ensure_binary.sh 会在首次运行时
+# 从 GitHub Release 自动下载对应平台二进制并缓存。
 set -euo pipefail
-
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$ROOT"
-
-SKILL="$ROOT/.claude/skills/zhouyi-divination"
-BIN="$SKILL/bin"
-OUT="$ROOT/dist"
-ZIP="$OUT/zhouyi-divination-skill.zip"
-
-mkdir -p "$BIN" "$OUT"
-
-echo "==> 交叉编译五平台二进制（最新代码）"
-build() {
-  local os=$1 arch=$2 ext=${3:-}
-  local out="$BIN/zhouyi-${os}-${arch}${ext}"
-  GOOS="$os" GOARCH="$arch" go build -trimpath -ldflags="-s -w" -o "$out" .
-  printf "    ✅ %-22s %s\n" "${os}-${arch}${ext}" "$(du -h "$out" | cut -f1)"
-}
-build darwin  arm64
-build darwin  amd64
-build linux   amd64
-build linux   arm64
-build windows amd64 .exe
-
-echo "==> 打包 zip"
-rm -f "$ZIP"
-# 用子 shell 进入 skills 父目录，让 zip 内的顶层就是 zhouyi-divination/
-( cd "$SKILL/.." && zip -rq "$ZIP" zhouyi-divination \
-    -x '*.DS_Store' )
-
-echo ""
-echo "==> 完成"
-echo "    分发包：$ZIP"
-echo "    大小：  $(du -h "$ZIP" | cut -f1)"
-echo "    内容："
-unzip -l "$ZIP" | awk 'NR>3 && $4!="" {print "      "$4}' | grep -v '/$' || true
-echo ""
-echo "    把这个 zip 发给别人，对方解压后将 zhouyi-divination/ 放进"
-echo "    ~/.claude/skills/ 或 <项目>/.claude/skills/ 即可使用。"
+echo "本脚本已停用。占卜 skill 已迁至独立仓库 y001j/zhouyi-divination-skill。" >&2
+echo "发布二进制请在该仓库执行 scripts/release.sh，详见本文件注释。" >&2
+exit 1

@@ -7,8 +7,6 @@ codes.json.tmp
 # ===== 编译产物（走 GitHub Releases，不入仓库）=====
 zhouyi
 zhouyi-linux-amd64
-# skill 分发包内的多平台二进制：作为 Release 附件分发，源码仓库不收
-.claude/skills/zhouyi-divination/bin/
 
 # 打包分发产物（走 GitHub Releases，不入仓库）
 /dist/
