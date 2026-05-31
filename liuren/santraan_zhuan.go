@@ -207,7 +207,7 @@ func isBaZhuanDay(g Gan, dz Zhi) bool {
 //	有克：按贼克法
 //	无克：
 //	  阳日（刚日）：从干上阳神（一课上神）顺数三位（含起点 +2）为初传
-//	  阴日（柔日）：从支上阴神（四课上神）逆数三位（-2）为初传
+//	  阴日（柔日）：从第四课上神（=tianpan[tianpan[日支]]）逆数三位（-2）为初传
 //	  中、末传：皆取干上神（一课上神）
 func baZhuanMethod(ctx *Context, tianpan [12]Zhi, ke [4]Ke) SanChuan {
 	keks := findKes(ke, ctx.Gan)
@@ -217,6 +217,8 @@ func baZhuanMethod(ctx *Context, tianpan [12]Zhi, ke [4]Ke) SanChuan {
 		return sc
 	}
 	if len(keks) > 1 {
+		// 八专日干支同位，四课实占两位（一二课、三四课各重叠），
+		// 多克极罕见；此处沿用一般比用/涉害择克为简化处理，结果仍取「有克即用」之上神。
 		sc := resolveFromCandidates(ctx, tianpan, ke, keks, "")
 		sc.Method = "八专法"
 		sc.Note = "八专有克"
@@ -229,7 +231,11 @@ func baZhuanMethod(ctx *Context, tianpan [12]Zhi, ke [4]Ke) SanChuan {
 		// 阳日：从干上阳神顺数三位（含起点）= +2
 		chu = Zhi((int(ganUpper) + 2) % 12)
 	} else {
-		// 阴日：从支上阴神（四课上神）逆数三位 = -2
+		// 阴日：从「第四课上神」逆数三位 = -2。
+		// 八专干支同位（寄宫=日支），四课塌缩成两课：
+		//   三课上神（支上神）= tianpan[日支]；
+		//   四课上神           = tianpan[三课上神] = tianpan[tianpan[日支]]（故为两跳）。
+		// 《大六壬指南》《大全》：「柔日从第四课上神逆数三神为发用」，取四课上神。
 		zhiYinShen := tianpan[tianpan[ctx.DayZhi]]
 		chu = Zhi((int(zhiYinShen) - 2 + 12) % 12)
 	}

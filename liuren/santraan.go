@@ -80,17 +80,18 @@ func filterByType(kes []Ke, t string) []Ke {
 	return out
 }
 
-// isSanKeNotFour 四课上神去重后少于 4 → 课不全
+// isSanKeNotFour 四课上神去重后恰为 3 → 课不全（别责课）
 //
-// 古法"别责课"严格触发条件：四课中有两课的上神相同（通常为二与一、或四与三），
+// 古法"别责课"严格触发条件：四课中恰有两课的上神相同（通常为二与一、或四与三），
 // 即实际上只有三个不同上神；且无克贼、无遥克。
-// 简化为"上神去重数 < 4"较传统条件略宽，但在实际起课中差异较小。
+// 去重数若 < 3（两组重叠，仅余两个或一个不同上神）属八专/伏吟等已被前置分支拦截的特殊盘，
+// 不应归别责；故此处严格判 == 3。
 func isSanKeNotFour(ke [4]Ke) bool {
 	seen := map[Zhi]bool{}
 	for _, k := range ke {
 		seen[k.Upper] = true
 	}
-	return len(seen) < 4
+	return len(seen) == 3
 }
 
 // chainNextUpper 由一个天神 z 找其在地盘对应位置的"上神"（即 tianpan[z]）
