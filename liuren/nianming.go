@@ -1,5 +1,30 @@
 package liuren
 
+import "strings"
+
+// ParseBenMing 把用户输入解析为本命地支。
+// 接受三种写法：地支字（子/丑/…/亥）、生肖字（鼠/牛/…/猪）、带「属」前缀（属猪）。
+// 返回 (地支, true) 表示解析成功；(0, false) 表示无法识别。
+func ParseBenMing(s string) (Zhi, bool) {
+	s = strings.TrimSpace(s)
+	s = strings.TrimPrefix(s, "属") // 「属猪」→「猪」
+	s = strings.TrimSpace(s)
+	if s == "" {
+		return 0, false
+	}
+	// 1) 直接是地支字
+	if z := ParseZhi(s); z >= 0 {
+		return z, true
+	}
+	// 2) 生肖字 → 地支（生肖序与地支序一一对应：鼠=子、丑=牛…）
+	for i, sx := range ZhiShengXiao {
+		if sx == s {
+			return Zhi(i), true
+		}
+	}
+	return 0, false
+}
+
 // NianMingInfo 年命上神信息
 type NianMingInfo struct {
 	Zhi       Zhi       // 本命或行年的地支

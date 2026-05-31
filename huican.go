@@ -20,16 +20,25 @@ type HuCanResult struct {
 
 // HuCanDivine 以同一时刻并行起周易卦（铜钱法）、大六壬课、奇门时家局
 func HuCanDivine(t time.Time, question string, qt QuestionType) (*HuCanResult, error) {
+	return HuCanDivineNianMing(t, question, qt, liurenNianMing{})
+}
+
+// HuCanDivineNianMing 与 HuCanDivine 相同，但允许为六壬子盘传入可选的年命/行年。
+// nm 为零值时等价于纯时间起课。
+func HuCanDivineNianMing(t time.Time, question string, qt QuestionType, nm liurenNianMing) (*HuCanResult, error) {
 	// 周易：铜钱法
 	zy := DivineByCoins()
 	zy.Time = t
 	zy.QuestionType = qt
 
-	// 大六壬
-	lrPan, err := liuren.Divine(t)
+	// 大六壬（含可选年命）
+	lrCtx, err := liuren.BuildContext(t)
 	if err != nil {
 		return nil, fmt.Errorf("六壬起课失败: %w", err)
 	}
+	lrCtx.QuestionType = string(qt)
+	nm.applyTo(lrCtx)
+	lrPan := liuren.DivineWithContext(lrCtx)
 
 	// 奇门遁甲
 	qmPan, err := qimen.BuildPan(t)
